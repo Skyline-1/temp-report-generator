@@ -25,8 +25,14 @@ class Form1(Form1Template):
           error_messages.append("Author name is required")
           all_valid = False
         start_date = self.date_picker_1.date
+        if not start_date:
+          error_messages.append("Start date is required")
+          all_valid = False
         start_time = self.text_box_3.text
         end_date = self.date_picker_2.date
+        if not end_date:
+          error_messages.append("End date is required")
+          all_valid = False
         end_time = self.text_box_4.text
 
         # Collect data from the second set of radio buttons
@@ -34,7 +40,7 @@ class Form1(Form1Template):
         files = self.file_loader_1.files  # Get the list of files
         if self.radio_button_3.selected:
           temp_value = 5
-        else:
+        elif self.radio_button_4.selected:
           temp_value = 20
         # Call server function to save user choice
         anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, files, temp_value)
