@@ -1,4 +1,5 @@
-pandas==1.5.3
 matplotlib
 docx
 except==1.0a1
+pandas
+exceptions-and-logging

@@ -49,21 +49,18 @@ def update_style(table):
             run.font.color.rgb = RGBColor(255, 255, 255)  # White text
 def extract_temperatures_from_csv(file_path, start_datetime, end_datetime):
     temperatures = []
-    try:
-        # Read the CSV file into a DataFrame
-        df = pd.read_csv(file_path)
-        df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-        filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
-        # Extract the temperature values from the 'Temperature' column if it exists
-        if 'Temperature' in filtered_df.columns:
-            temperatures = filtered_df['Temperature'].dropna().tolist()
-        else:
-            print(f"Column 'Temperature' not found in file: {file_path}")
-        return temperatures
-    except Exception as e:
-        print(f"Error processing file {file_path}: {e}")
-        return -1
-      
+    
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(file_path)
+    df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+    filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
+    # Extract the temperature values from the 'Temperature' column if it exists
+    if 'Temperature' in filtered_df.columns:
+        temperatures = filtered_df['Temperature'].dropna().tolist()
+    else:
+        print(f"Column 'Temperature' not found in file: {file_path}")
+    return temperatures
+  
 def calculate_diff(start_time, end_time):
     start_datetime = pd.to_datetime(start_time)
     end_datetime = pd.to_datetime(end_time)
@@ -125,28 +122,27 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
     combined_data = pd.DataFrame()  
     # Step 3: Loop through each CSV file and filter data
     for idx, file in enumerate(csv_files):
-        try:
-            # Read the CSV file
-            df = pd.read_csv(file)
-            df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+       
+          # Read the CSV file
+          df = pd.read_csv(file)
+          df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
 
-            # Convert the start_date and start_time into a datetime object for comparison
-            # Filter data based on the combined DateTime column
-            filtered_data = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
+          # Convert the start_date and start_time into a datetime object for comparison
+          # Filter data based on the combined DateTime column
+          filtered_data = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
 
-            # Check if filtered data is not empty before plotting
-            if not filtered_data.empty:
-                # Append the filtered data to the combined DataFrame
-                combined_data = pd.concat([combined_data, filtered_data], ignore_index=True)
+          # Check if filtered data is not empty before plotting
+          if not filtered_data.empty:
+              # Append the filtered data to the combined DataFrame
+              combined_data = pd.concat([combined_data, filtered_data], ignore_index=True)
 
-                # Plot the filtered data using the new DateTime column for x-axis
-                plt.plot(filtered_data['DateTime'], 
-                        filtered_data['Temperature'], 
-                        marker='o', color=colors[idx], label=f"File {idx + 1}")
-            else:
-                print(f"No data in {file} for the given time period.")
-        except Exception as e:
-            print(f"Error processing {file}: {e}")
+              # Plot the filtered data using the new DateTime column for x-axis
+              plt.plot(filtered_data['DateTime'], 
+                      filtered_data['Temperature'], 
+                      marker='o', color=colors[idx], label=f"File {idx + 1}")
+          else:
+              print(f"No data in {file} for the given time period.")
+      
 
 
     # Step 4: Add titles and labels
@@ -171,29 +167,25 @@ def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_d
     table.cell(0, 1).text = 'Value[°C]'
     table.cell(0, 2).text = 'Date / Time'
     for filename in folder_path:
-            try:
-                df = pd.read_csv(filename)
-                df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-                #df['Date / Time(GMT-05:00)'] = pd.to_datetime(df['Date / Time(GMT-05:00)'], format='%m/%d/%Y %I:%M:%S %p')
-                filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] >= end_datetime) & (df['Temperature'] == temp)]
-                for index, row in filtered_df.iterrows():
-                    row_cells = table.add_row().cells
-                    row_cells[0].text = filename
-                    row_cells[1].text = str(row['Temperature'])
-                    row_cells[2].text = str(row['Date'] + " " + row['Time'])
-            except Exception as e:
-                print(f"Error processing file {filename}: {e}")
-              
+          
+          df = pd.read_csv(filename)
+          df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+          #df['Date / Time(GMT-05:00)'] = pd.to_datetime(df['Date / Time(GMT-05:00)'], format='%m/%d/%Y %I:%M:%S %p')
+          filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] >= end_datetime) & (df['Temperature'] == temp)]
+          for index, row in filtered_df.iterrows():
+              row_cells = table.add_row().cells
+              row_cells[0].text = filename
+              row_cells[1].text = str(row['Temperature'])
+              row_cells[2].text = str(row['Date'] + " " + row['Time'])
+            
 def extract_temp_from_csv(file_path):
     temperatures = []
-    try:
-        # Read the CSV file into a DataFrame
-        df = pd.read_csv(file_path)
-        
-        temperatures = df['Temperature'].dropna().tolist()
-        
-    except Exception as e:
-        print(f"Error processing file {file_path}: {e}")
+
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(file_path)
+    
+    temperatures = df['Temperature'].dropna().tolist()
+    
     return temperatures
 
 
@@ -250,48 +242,47 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         counter = round(counter, 1)
         heading = doc.add_heading(f'{str(counter)}: {filename}', level=2)
         update_heading_style(heading)
-        try:
-            df = pd.read_csv(filename)
-            df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-            filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
-            base = os.path.splitext(filename)[0]  # Get the filename without the extension
-            new_filename = base + ".jpg"
-            new_file_path = new_filename
-            image_path = generate_graph_for_time_range(filtered_df, new_file_path)
-            doc.add_picture(image_path, width=Inches(6.0)) 
-            doc.add_heading('', level=2)
-            table = doc.add_table(rows=8, cols=2)
-            table.style = 'Table Grid'
-            table.autofit = True
-            table.allow_autofit = True
-            update_style(table)
-            table.cell(0, 0).text = 'Statistics'
-            table.cell(0, 1).text = 'Value'
-            table.cell(1, 0).text = 'Range'
-            table.cell(1, 1).text = str(start_datetime) + '-' + str(end_datetime)
-            temperatures = extract_temperatures_from_csv(filename, start_datetime, end_datetime)
-            max_temp = max(temperatures)
-            min_temp = min(temperatures)
-            avg_temp = round((max_temp+min_temp)/2, 2)
-            table.cell(2, 0).text = 'Average'
-            table.cell(2, 1).text = str(avg_temp) + ' °C'
-            table.cell(3, 0).text = 'Min/Max Thresholds'
-            table.cell(3, 1).text = str(min_temp) + ' / ' + str(max_temp) +  ' °C'
-            calculated_mkt = mean_kinetic_temperature(temperatures)
-            table.cell(4, 0).text = 'MKT'
-            table.cell(4, 1).text = str(calculated_mkt) +  ' °C'
-            variance = round(statistics.variance(temperatures), 2)
-            table.cell(5, 0).text = 'Variance'
-            table.cell(5, 1).text = f"{variance:.2f}"
-            std_deviation = statistics.variance(temperatures)
-            table.cell(6, 0).text = 'Std. Deviation'
-            table.cell(6, 1).text = f"{std_deviation:.4f}"
-            table.cell(7, 0).text = 'Time: Within Min/Max'
-            diff_time = calculate_diff(start_datetime, end_datetime)
-            table.cell(7, 1).text = diff_time
-        except Exception as e:
-            print(f"Error processing file {filename}: {e}")
     
+        df = pd.read_csv(filename)
+        df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+        filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
+        base = os.path.splitext(filename)[0]  # Get the filename without the extension
+        new_filename = base + ".jpg"
+        new_file_path = new_filename
+        image_path = generate_graph_for_time_range(filtered_df, new_file_path)
+        doc.add_picture(image_path, width=Inches(6.0)) 
+        doc.add_heading('', level=2)
+        table = doc.add_table(rows=8, cols=2)
+        table.style = 'Table Grid'
+        table.autofit = True
+        table.allow_autofit = True
+        update_style(table)
+        table.cell(0, 0).text = 'Statistics'
+        table.cell(0, 1).text = 'Value'
+        table.cell(1, 0).text = 'Range'
+        table.cell(1, 1).text = str(start_datetime) + '-' + str(end_datetime)
+        temperatures = extract_temperatures_from_csv(filename, start_datetime, end_datetime)
+        max_temp = max(temperatures)
+        min_temp = min(temperatures)
+        avg_temp = round((max_temp+min_temp)/2, 2)
+        table.cell(2, 0).text = 'Average'
+        table.cell(2, 1).text = str(avg_temp) + ' °C'
+        table.cell(3, 0).text = 'Min/Max Thresholds'
+        table.cell(3, 1).text = str(min_temp) + ' / ' + str(max_temp) +  ' °C'
+        calculated_mkt = mean_kinetic_temperature(temperatures)
+        table.cell(4, 0).text = 'MKT'
+        table.cell(4, 1).text = str(calculated_mkt) +  ' °C'
+        variance = round(statistics.variance(temperatures), 2)
+        table.cell(5, 0).text = 'Variance'
+        table.cell(5, 1).text = f"{variance:.2f}"
+        std_deviation = statistics.variance(temperatures)
+        table.cell(6, 0).text = 'Std. Deviation'
+        table.cell(6, 1).text = f"{std_deviation:.4f}"
+        table.cell(7, 0).text = 'Time: Within Min/Max'
+        diff_time = calculate_diff(start_datetime, end_datetime)
+        table.cell(7, 1).text = diff_time
+    
+
 
 
 @anvil.server.callable
