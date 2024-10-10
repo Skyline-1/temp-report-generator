@@ -4,7 +4,7 @@ native_deps: {head_html: '<link href="https://fonts.googleapis.com/css2?family=E
 package_name: Rally_App_1
 runtime_options:
   client_version: '3'
-  server_spec: {base: python310-minimal}
+  server_spec: {base: python310-standard}
   server_version: python3-sandbox
   version: 2
 services:
