@@ -1,7 +1,9 @@
 allow_embedding: false
-name: Rally App 1
+db_schema: {}
+name: Temp Report Generator
 native_deps: {head_html: '<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;600&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet" rel="preload" as="font" crossorigin="anonymous">'}
-package_name: Rally_App_1
+package_name: Temp_Report_Generator
+renamed: true
 runtime_options:
   client_version: '3'
   server_spec: {base: python310-standard}
