@@ -30,7 +30,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'REYRFY,SHWJCX'}
     name: text_box_1
-    properties: {text: text_box_1}
+    properties: {placeholder: Enter name of the author, text: ''}
     type: TextBox
   - layout_properties: {grid_position: 'XRCXMV,VYPFQQ'}
     name: label_3
@@ -38,7 +38,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'FZNJXB,VLLCEX'}
     name: date_picker_1
-    properties: {enabled: true, visible: true}
+    properties: {enabled: true, placeholder: Enter start date, visible: true}
     type: DatePicker
   - layout_properties: {grid_position: 'DSBOAY,CMWHXJ'}
     name: label_7
@@ -46,7 +46,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'KVBOFA,QYXCTN'}
     name: text_box_3
-    properties: {}
+    properties: {placeholder: Enter start time}
     type: TextBox
   - layout_properties: {grid_position: 'AIYYKM,PPTYNH'}
     name: label_4
@@ -55,7 +55,7 @@ components:
   - event_bindings: {change: date_picker_2_change}
     layout_properties: {grid_position: 'ABWRVO,WWHLXW'}
     name: date_picker_2
-    properties: {}
+    properties: {placeholder: Enter end date}
     type: DatePicker
   - layout_properties: {grid_position: 'MACBYY,JGKFZK'}
     name: label_8
@@ -63,7 +63,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'XRVHDH,KCKUMN'}
     name: text_box_4
-    properties: {}
+    properties: {placeholder: Enter end time}
     type: TextBox
   - layout_properties: {grid_position: 'HGRWPL,HRKXEB'}
     name: label_5
@@ -89,13 +89,22 @@ components:
     name: file_loader_1
     properties: {multiple: true}
     type: FileLoader
+  - layout_properties: {grid_position: 'ZAYYZQ,IMLPIS'}
+    name: label_10
+    properties: {text: Enter Company's name}
+    type: Label
+  - event_bindings: {pressed_enter: text_box_5_pressed_enter}
+    layout_properties: {grid_position: 'RYUCQH,UROHRG'}
+    name: text_box_5
+    properties: {enabled: true, placeholder: Enter name of the company, visible: true}
+    type: TextBox
   - layout_properties: {grid_position: 'EHATYC,ALLJDC'}
     name: label_6
     properties: {text: Enter Application's name}
     type: Label
   - layout_properties: {grid_position: 'SFUCWI,GDDQTC'}
     name: text_box_2
-    properties: {text: Enter name of the application}
+    properties: {placeholder: Enter name of the application, text: ''}
     type: TextBox
   - event_bindings: {click: submit_button_click}
     layout_properties: {grid_position: 'QDIKGP,ATXUQB'}

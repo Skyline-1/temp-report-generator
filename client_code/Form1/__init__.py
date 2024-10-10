@@ -74,12 +74,24 @@ class Form1(Form1Template):
         if not (self.radio_button_3.selected or self.radio_button_4.selected or self.radio_button_8.selected):
           error_messages.append("Temp value is required")
           all_valid = False
+        company_name = self.text_box_5.text
+        if not company_name:
+          error_messages.append("Company name is required")
+          all_valid = False
+        application_name = self.text_box_2.text
+        if not application_name:
+          error_messages.append("Application name is required")
+          all_valid = False
         # Call server function to save user choice
         if all_valid:
-            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, files, temp_value)
+            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, files, temp_value, application_name, company_name)
         else:
             print(error_messages)
             print("Please check the errors and retry")
+
+    def text_box_5_pressed_enter(self, **event_args):
+      """This method is called when the user presses Enter in this text box"""
+      pass
     
 
 
