@@ -6,7 +6,13 @@ package_name: Temp_Report_Generator
 renamed: true
 runtime_options:
   client_version: '3'
-  server_spec: {base: python310-standard}
+  server_spec: {base: python310-minimal}
+  server_spec_disabled:
+    base: python310-standard
+    requirements: |-
+      pandas==1.5.3
+      matplotlib
+      docx
   server_version: python3-sandbox
   version: 2
 services:

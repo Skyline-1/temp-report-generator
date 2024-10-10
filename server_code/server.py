@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import time
 import statistics
-import win32com.client
+#import win32com.client
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -392,12 +392,12 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
     doc.save('Temp Report.docx')
-    time.sleep(2)
-    word = win32com.client.Dispatch("Word.Application")
-    doc = word.Documents.Open("Temp Report.docx")
-    doc.SaveAs("Temp Report.pdf", FileFormat=17)  
-    doc.Close() 
-    word.Quit() 
+    #time.sleep(2)
+    #word = win32com.client.Dispatch("Word.Application")
+    #doc = word.Documents.Open("Temp Report.docx")
+    #doc.SaveAs("Temp Report.pdf", FileFormat=17)  
+    #doc.Close() 
+    #word.Quit() 
       
 
 def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, files, temp_value, application_name, company_name):
