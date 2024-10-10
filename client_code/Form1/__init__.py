@@ -2,8 +2,7 @@ from ._anvil_designer import Form1Template
 from anvil import *
 import re
 import anvil.server
-import os
-import pd
+
 class Form1(Form1Template):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
@@ -54,9 +53,6 @@ class Form1(Form1Template):
         if not re.match(time_pattern, end_time):
             error_messages.append("Invalid time format! Please enter a valid time in HH:MM:SS, HH:MM, or HH in 24 hour format.")
             all_valid = False
-        start_datetime = pd.to_datetime(start_date + ' ' + start_time)
-        end_datetime = pd.to_datetime(end_date + ' ' + end_time)
-
         #check if user has added files or not and whether they have extension as csv or not
         files = self.file_loader_1.files  # Get the list of files
         if len(self.file_loader_1.files) <= 0:
@@ -65,11 +61,9 @@ class Form1(Form1Template):
         else:
           # Check if all added files are CSV
           for file in files:
-              # Get the file extension
-              _, extension = os.path.splitext(file)  # Split the file into name and extension
-              if extension.lower() != '.csv':  # Check if the extension is not .csv
-                  error_messages.append(f"{file} is not a CSV file.")
-                  all_valid = False
+              if not file.name.lower().endswith('.csv'):
+                 error_messages.append(f"{file.name} is not a CSV file.")
+                 all_valid = False
         #check if temperature is added or not
         if self.radio_button_3.selected:
           temp_value = 5
@@ -81,10 +75,9 @@ class Form1(Form1Template):
           error_messages.append("Temp value is required")
           all_valid = False
         # Call server function to save user choice
-        while(True):
-          if all_valid:
-            anvil.server.call('save_user_choice', selected_value, author_name, start_datetime, end_datetime, files, temp_value)
-          else:
+        if all_valid:
+            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, files, temp_value)
+        else:
             print(error_messages)
             print("Please check the errors and retry")
     
