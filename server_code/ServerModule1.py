@@ -224,6 +224,7 @@ def process_all_files(folder_path, start_datetime, end_datetime):
     else:
         print(f"No temperature data found between {start_datetime} and {end_datetime} across all files.")
 def generate_graph_for_time_range(filtered_df, image_path):
+    print("Image path :", image_path)
     if not filtered_df.empty:
         plt.figure(figsize=(10, 6))
         ax = plt.gca() 
@@ -235,10 +236,13 @@ def generate_graph_for_time_range(filtered_df, image_path):
         plt.grid(True)
         # Save the plot as an image
         plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
-        plt.savefig(image_path)
+        img_stream = BytesIO()
+        plt.savefig(img_stream, format='jpg')
         plt.close()
         print(f"Graph saved as {image_path}")
-        return image_path
+        img_stream.seek(0)  # Move to the start of the BytesIO object
+        return img_stream
+        #return image_path
     else:
         print("No data available for the specified time range.")
         return ""
@@ -272,8 +276,11 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         new_filename = base + ".jpg"
         new_file_path = new_filename
         image_path = generate_graph_for_time_range(filtered_df, new_file_path)
+        print("Logger 2")
         doc.add_picture(image_path, width=Inches(6.0)) 
+        print("Logger 3")
         doc.add_heading('', level=2)
+        print("Logger 24")
         table = doc.add_table(rows=8, cols=2)
         table.style = 'Table Grid'
         table.autofit = True
@@ -403,7 +410,9 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 0).text = 'Number of sensors'
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
+    doc_stream = io.BytesIO()
     doc.save('Temp Report.docx')
+    return BlobMedia('application/vnd.openxmlformats-officedocument.wordprocessingml.document', doc_stream.read(), 'temperature_report.docx')
     #time.sleep(2)
     #word = win32com.client.Dispatch("Word.Application")
     #doc = word.Documents.Open("Temp Report.docx")
