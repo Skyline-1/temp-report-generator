@@ -113,7 +113,7 @@ def process_file(doc, files, start_datetime, end_datetime):
         avg_temp = round((max_temp+min_temp)/2, 2)
         total_avg_time += int(avg_temp)
         row_cells = table.add_row().cells
-        row_cells[0].text = str(filename)
+        row_cells[0].text = str(filename.name)
         row_cells[1].text = str(avg_temp) 
         row_cells[2].text = str(min_temp) 
         row_cells[3].text = str(max_temp)
@@ -189,9 +189,10 @@ def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_d
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
           #df['Date / Time(GMT-05:00)'] = pd.to_datetime(df['Date / Time(GMT-05:00)'], format='%m/%d/%Y %I:%M:%S %p')
           filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] >= end_datetime) & (df['Temperature'] == temp)]
-          for index, row in filtered_df.iterrows():
+          if not filtered_df.empty:
+              row = filtered_df.iloc[0]
               row_cells = table.add_row().cells
-              #row_cells[0].text = filename
+              row_cells[0].text = filename.name
               row_cells[1].text = str(row['Temperature'])
               row_cells[2].text = str(row['Date'] + " " + row['Time'])
             
@@ -263,7 +264,7 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
     for filename in folder_path:
         counter += 0.1
         counter = round(counter, 1)
-        heading = doc.add_heading(f'{str(counter)}: {filename}', level=2)
+        heading = doc.add_heading(f'{str(counter)}: {filename.name}', level=2)
         update_heading_style(heading)
         bytes_data = filename.get_bytes()
         df = pd.read_csv(BytesIO(bytes_data)) 
@@ -277,11 +278,8 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         new_filename = base + ".jpg"
         new_file_path = new_filename
         image_path = generate_graph_for_time_range(filtered_df, new_file_path)
-        print("Logger 2")
         doc.add_picture(image_path, width=Inches(6.0)) 
-        print("Logger 3")
         doc.add_heading('', level=2)
-        print("Logger 24")
         table = doc.add_table(rows=8, cols=2)
         table.style = 'Table Grid'
         table.autofit = True

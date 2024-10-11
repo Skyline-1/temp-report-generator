@@ -1,6 +1,7 @@
 from ._anvil_designer import Form1Template
 from anvil import *
 import re
+from anvil import BlobMedia
 import anvil.server
 
 class Form1(Form1Template):
@@ -90,7 +91,7 @@ class Form1(Form1Template):
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
-             anvil.js.call('downloadBlob', blob_media)
+             anvil.media.download(blob_media)
         else:
             print(error_messages)
             print("Please check the errors and retry")
@@ -101,6 +102,10 @@ class Form1(Form1Template):
 
     def file_loader_1_change(self, file, **event_args):
       """This method is called when a new file is loaded into this FileLoader"""
+      pass
+
+    def download_link_click(self, **event_args):
+      """This method is called when the link is clicked"""
       pass
     
 
