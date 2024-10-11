@@ -414,7 +414,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc_stream = io.BytesIO()
     doc.save(doc_stream) 
     doc_stream.seek(0)
-    return anvil.media.BlobMedia(
+    return BlobMedia(
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
         doc_stream.read(), 
         'Temp Report.docx'

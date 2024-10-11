@@ -86,9 +86,11 @@ class Form1(Form1Template):
         if all_valid:
             #anvil.server.call('say_hello', 'Parneet')
              blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files)
+             print("Media: ", blob_media)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
+             anvil.js.call('downloadBlob', blob_media)
         else:
             print(error_messages)
             print("Please check the errors and retry")
