@@ -84,7 +84,8 @@ class Form1(Form1Template):
           all_valid = False
         # Call server function to save user choice
         if all_valid:
-            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, files, temp_value, application_name, company_name)
+            #anvil.server.call('say_hello', 'Parneet')
+            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name)
         else:
             print(error_messages)
             print("Please check the errors and retry")

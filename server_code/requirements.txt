@@ -1,3 +1,4 @@
 matplotlib
-docx
 pandas
+anvil-uplink
+python-docx
