@@ -1,11 +1,11 @@
 import anvil.server
 import pandas as pd
-import os
-import time
+#import os
+#import time
 import statistics
 #import win32com.client
 
-import math
+#import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -18,8 +18,8 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import RGBColor
 from anvil import *
-import random
-anvil.server.connect("server_N3Y3HO2WJ2V7T6HZMHGKDHUE-PZEVDPC4ITSDLA7Q")
+#import random
+anvil.server.connect("server_ZTDZ4XZSALACM6XU7CWYVEV7-PZEVDPC4ITSDLA7Q")
 
 generated_ids = set()
 def generate_unique_id():
