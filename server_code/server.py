@@ -4,6 +4,7 @@ import os
 import time
 import statistics
 #import win32com.client
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,6 +19,8 @@ from docx.oxml.ns import qn
 from docx.shared import RGBColor
 from anvil import *
 import random
+anvil.server.connect("server_N3Y3HO2WJ2V7T6HZMHGKDHUE-PZEVDPC4ITSDLA7Q")
+
 generated_ids = set()
 def generate_unique_id():
     while True:
