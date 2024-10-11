@@ -9,6 +9,7 @@ import statistics
 #import win32com.client
 import math
 import numpy as np
+from anvil import BlobMedia 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from docx import Document
@@ -411,9 +412,13 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
     doc_stream = io.BytesIO()
-    doc.save('Temp Report.docx')
-    return BlobMedia('application/vnd.openxmlformats-officedocument.wordprocessingml.document', doc_stream.read(), 'temperature_report.docx')
-    #time.sleep(2)
+    doc.save(doc_stream) 
+    doc_stream.seek(0)
+    return anvil.media.BlobMedia(
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+        doc_stream.read(), 
+        'Temp Report.docx'
+    )#time.sleep(2)
     #word = win32com.client.Dispatch("Word.Application")
     #doc = word.Documents.Open("Temp Report.docx")
     #doc.SaveAs("Temp Report.pdf", FileFormat=17)  
@@ -436,5 +441,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_str = end_date_str + " " + end_time
     end_datetime = pd.to_datetime(end_str)
     print("Hello")
-    create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name)
+    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name)
 
