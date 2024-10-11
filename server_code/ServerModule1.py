@@ -55,12 +55,9 @@ def update_style(table):
             run.font.color.rgb = RGBColor(255, 255, 255)  # White text
 def extract_temperatures_from_csv(file_path, start_datetime, end_datetime):
     temperatures = []
-    
     # Read the CSV file into a DataFrame
     bytes_data = file_path.get_bytes()
     df = pd.read_csv(BytesIO(bytes_data)) 
-    #df = pd.read_csv(StringIO(file_path.get_bytes().decode('utf-8')))
-    #df = pd.read_csv(file_path)
     df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
     filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
     # Extract the temperature values from the 'Temperature' column if it exists
@@ -120,6 +117,7 @@ def process_file(doc, files, start_datetime, end_datetime):
         index+=1
     total_avg_time/=(index-1)
     return total_avg_time, overall_min, overall_max
+  
 def get_combined_graph(folder_path, start_datetime, end_datetime):
     # Step 1: Get all CSV files in the specified folder
     csv_files = folder_path
@@ -127,11 +125,12 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
     colors = plt.cm.viridis(np.linspace(0, 1, num_files))
     # Step 2: Create a new figure for plotting
     plt.figure(figsize=(12, 6))
+    ax = plt.gca() 
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y\n%I:%M:%S %p'))
     # Initialize an empty DataFrame for combined data
     combined_data = pd.DataFrame()  
     # Step 3: Loop through each CSV file and filter data
     for idx, file in enumerate(csv_files):
-       
           # Read the CSV file
           bytes_data = file.get_bytes()
           df = pd.read_csv(BytesIO(bytes_data)) 
@@ -139,25 +138,17 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
           #df = pd.read_csv(StringIO(file.get_bytes().decode('utf-8')))
           #df = pd.read_csv(file)
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-
-          # Convert the start_date and start_time into a datetime object for comparison
-          # Filter data based on the combined DateTime column
           filtered_data = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
-
           # Check if filtered data is not empty before plotting
           if not filtered_data.empty:
               # Append the filtered data to the combined DataFrame
               combined_data = pd.concat([combined_data, filtered_data], ignore_index=True)
-
               # Plot the filtered data using the new DateTime column for x-axis
               plt.plot(filtered_data['DateTime'], 
                       filtered_data['Temperature'], 
-                      marker='o', color=colors[idx], label=f"File {idx + 1}")
+                      linestyle='-', color=colors[idx])
           else:
               print(f"No data in {file} for the given time period.")
-      
-
-
     # Step 4: Add titles and labels
     plt.xlabel('Temperature (°C)')
     plt.ylabel('Date and Time')
@@ -168,7 +159,6 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
     plt.tight_layout()
     plt.savefig("combined_data_plot.jpg")
     return "combined_data_plot.jpg", num_files
- 
 
 def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_datetime):
     table = doc.add_table(rows=1, cols=3)
@@ -180,14 +170,9 @@ def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_d
     table.cell(0, 1).text = 'Value[°C]'
     table.cell(0, 2).text = 'Date / Time'
     for filename in folder_path:
-          
-          #df = pd.read_csv(filename)
           bytes_data = filename.get_bytes()
           df = pd.read_csv(BytesIO(bytes_data)) 
-          #df = pd.read_csv(BytesIO(bytes_data.decode('utf-8')))
-          #df = pd.read_csv(StringIO(filename.get_bytes().decode('utf-8')))
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-          #df['Date / Time(GMT-05:00)'] = pd.to_datetime(df['Date / Time(GMT-05:00)'], format='%m/%d/%Y %I:%M:%S %p')
           filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] >= end_datetime) & (df['Temperature'] == temp)]
           if not filtered_df.empty:
               row = filtered_df.iloc[0]
@@ -198,16 +183,11 @@ def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_d
             
 def extract_temp_from_csv(file_path):
     temperatures = []
-
     # Read the CSV file into a DataFrame
-    #df = pd.read_csv(file_path)
     bytes_data = file_path.get_bytes()
     df = pd.read_csv(BytesIO(bytes_data)) 
-    #df = pd.read_csv(StringIO(file_path.get_bytes().decode('utf-8')))
     temperatures = df['Temperature'].dropna().tolist()
-    
     return temperatures
-
 
 def process_all_files(folder_path, start_datetime, end_datetime):
     # Convert start and end date/time strings to datetime objects
@@ -216,7 +196,6 @@ def process_all_files(folder_path, start_datetime, end_datetime):
     for filename in folder_path:
             temperatures = extract_temp_from_csv(filename)
             all_temperatures.extend(temperatures)  # Collect temperatures from each file
-
     # Calculate the maximum and minimum temperature across all files for the given range
     if all_temperatures:
         max_temp = max(all_temperatures)
@@ -225,29 +204,27 @@ def process_all_files(folder_path, start_datetime, end_datetime):
         return max_temp, min_temp, avg_temp
     else:
         print(f"No temperature data found between {start_datetime} and {end_datetime} across all files.")
+
 def generate_graph_for_time_range(filtered_df, image_path):
-    print("Image path :", image_path)
     if not filtered_df.empty:
         plt.figure(figsize=(10, 6))
         ax = plt.gca() 
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y\n%I:%M:%S %p'))
         filtered_df.loc[:, 'DateTime'] = pd.to_datetime(filtered_df['Date'] + ' ' + filtered_df['Time'])
-        plt.plot(filtered_df.loc[:, 'DateTime'], filtered_df['Temperature'], marker='o', linestyle='-', color='b')
+        plt.plot(filtered_df.loc[:, 'DateTime'], filtered_df['Temperature'], linestyle='-', color='b')
         plt.xlabel("Date and Time")
         plt.ylabel("Temperature (°C)")
         plt.grid(True)
-        # Save the plot as an image
         plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
         img_stream = BytesIO()
         plt.savefig(img_stream, format='jpg')
         plt.close()
-        print(f"Graph saved as {image_path}")
         img_stream.seek(0)  # Move to the start of the BytesIO object
         return img_stream
-        #return image_path
     else:
         print("No data available for the specified time range.")
         return ""
+      
 def mean_kinetic_temperature(temperatures, delta_h=83144, r=8.314):
     # Convert temperatures to Kelvin
     temps_in_kelvin = [temp + 273.15 for temp in temperatures]
@@ -261,20 +238,26 @@ def mean_kinetic_temperature(temperatures, delta_h=83144, r=8.314):
 
 def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
     counter=4.1
+    value=0.1
     for filename in folder_path:
-        counter += 0.1
-        counter = round(counter, 1)
+        if counter + value >= 5.0:
+          counter = 4.1
+          value = 0.1/10
+          counter += value
+        else:
+          counter += value
+        if value == 0.1:
+          counter = round(counter, 1)
+        elif value == 0.01:
+          counter = round(counter, 2)
         heading = doc.add_heading(f'{str(counter)}: {filename.name}', level=2)
         update_heading_style(heading)
         bytes_data = filename.get_bytes()
         df = pd.read_csv(BytesIO(bytes_data)) 
-        #df = pd.read_csv(StringIO(filename.get_bytes().decode('utf-8')))
-        #df = pd.read_csv(filename)
         df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
         filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
         file_name = filename.name 
         base = os.path.splitext(file_name)[0]
-        #base = os.path.splitext(filename)[0]  # Get the filename without the extension
         new_filename = base + ".jpg"
         new_file_path = new_filename
         image_path = generate_graph_for_time_range(filtered_df, new_file_path)
@@ -310,9 +293,6 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         diff_time = calculate_diff(start_datetime, end_datetime)
         table.cell(7, 1).text = diff_time
     
-
-
-
 def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name):
     doc = Document()
     if start_input == 1:
@@ -416,20 +396,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
         doc_stream.read(), 
         'Temp Report.docx'
-    )#time.sleep(2)
-    #word = win32com.client.Dispatch("Word.Application")
-    #doc = word.Documents.Open("Temp Report.docx")
-    #doc.SaveAs("Temp Report.pdf", FileFormat=17)  
-    #doc.Close() 
-    #word.Quit() 
-      
-# This is a server module. It runs on the Anvil server,
-# rather than in the user's browser.
-#
-# To allow anvil.server.call() to call functions here, we mark
-# them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
+    ) 
 @anvil.server.callable
 def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files):
     start_date_str = start_date.strftime('%Y-%m-%d')
@@ -438,6 +405,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_date_str = end_date.strftime('%Y-%m-%d')
     end_str = end_date_str + " " + end_time
     end_datetime = pd.to_datetime(end_str)
-    print("Hello")
     return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name)
 

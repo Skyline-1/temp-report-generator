@@ -1,6 +1,7 @@
 from ._anvil_designer import Form1Template
 from anvil import *
 import re
+from datetime import datetime
 from anvil import BlobMedia
 import anvil.server
 
@@ -11,7 +12,6 @@ class Form1(Form1Template):
 
     def submit_button_click(self, **properties):
         # Collect data from radio buttons
-        print("ON submit button click method")
         error_messages = []
         all_valid = True
         # Check if trailer is selected or not
@@ -54,6 +54,19 @@ class Form1(Form1Template):
         if not re.match(time_pattern, end_time):
             error_messages.append("Invalid time format! Please enter a valid time in HH:MM:SS, HH:MM, or HH in 24 hour format.")
             all_valid = False
+        if all_valid:
+          start_date_str = f"{start_date} {start_time}"  # Combine date and time
+          end_date_str = f"{end_date} {end_time}"          # Combine date and time
+      
+          # Define the format you expect (adjust based on your date format)
+          date_format = "%Y-%m-%d %H:%M:%S"
+      
+          # Convert strings to datetime objects
+          start_datetime = datetime.strptime(start_date_str, date_format)
+          end_datetime = datetime.strptime(end_date_str, date_format)
+          if start_datetime > end_datetime:
+            error_messages.append("Start date should be less than or equal to end date")
+            all_valid = False
         #check if user has added files or not and whether they have extension as csv or not
         files = self.file_loader_1.files  # Get the list of files
         if len(self.file_loader_1.files) <= 0:
@@ -85,9 +98,7 @@ class Form1(Form1Template):
           all_valid = False
         # Call server function to save user choice
         if all_valid:
-            #anvil.server.call('say_hello', 'Parneet')
              blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files)
-             print("Media: ", blob_media)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
@@ -96,17 +107,6 @@ class Form1(Form1Template):
             print(error_messages)
             print("Please check the errors and retry")
 
-    def text_box_5_pressed_enter(self, **event_args):
-      """This method is called when the user presses Enter in this text box"""
-      pass
-
-    def file_loader_1_change(self, file, **event_args):
-      """This method is called when a new file is loaded into this FileLoader"""
-      pass
-
-    def download_link_click(self, **event_args):
-      """This method is called when the link is clicked"""
-      pass
     
 
 
