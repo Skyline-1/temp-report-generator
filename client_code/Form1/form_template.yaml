@@ -85,7 +85,8 @@ components:
     name: label_9
     properties: {text: Enter csv file(s)}
     type: Label
-  - layout_properties: {grid_position: 'HAJMST,JETZBW'}
+  - event_bindings: {change: file_loader_1_change}
+    layout_properties: {grid_position: 'MJQBJK,BNRQKB'}
     name: file_loader_1
     properties: {multiple: true}
     type: FileLoader

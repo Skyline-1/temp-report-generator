@@ -85,13 +85,17 @@ class Form1(Form1Template):
         # Call server function to save user choice
         if all_valid:
             #anvil.server.call('say_hello', 'Parneet')
-            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name)
+            anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files)
         else:
             print(error_messages)
             print("Please check the errors and retry")
 
     def text_box_5_pressed_enter(self, **event_args):
       """This method is called when the user presses Enter in this text box"""
+      pass
+
+    def file_loader_1_change(self, file, **event_args):
+      """This method is called when a new file is loaded into this FileLoader"""
       pass
     
 
