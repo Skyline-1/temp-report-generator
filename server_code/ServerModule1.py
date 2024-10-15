@@ -1,4 +1,5 @@
 from io import BytesIO
+from scipy.interpolate import make_interp_spline
 import anvil.server
 import pandas as pd
 import os
@@ -211,11 +212,22 @@ def generate_graph_for_time_range(filtered_df, image_path):
         ax = plt.gca() 
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y\n%I:%M:%S %p'))
         filtered_df.loc[:, 'DateTime'] = pd.to_datetime(filtered_df['Date'] + ' ' + filtered_df['Time'])
-        plt.plot(filtered_df.loc[:, 'DateTime'], filtered_df['Temperature'], linestyle='-', color='b')
+        filtered_df['SmoothedTemperature'] = filtered_df['Temperature'].rolling(window=5).mean()
+    
+        #plt.plot(filtered_df.loc[:, 'DateTime'], filtered_df['Temperature'], linestyle='-', color='b')
         plt.xlabel("Date and Time")
         plt.ylabel("Temperature (°C)")
-        plt.grid(True)
-        plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
+        min_temp = filtered_df['Temperature'].min()
+        max_temp = filtered_df['Temperature'].max()
+        ax.set_yticks(np.arange(np.floor(min_temp), np.ceil(max_temp) + 1, 1))
+        ax.axhspan(14, 16, facecolor='blue', alpha=0.1)
+        ax.axhspan(16, 20, facecolor='green', alpha=0.1)
+        ax.axhspan(20, 26, facecolor='red', alpha=0.1)
+        
+        # Plot smoothed line, dropping NaN values that might arise from the rolling window
+        plt.plot(filtered_df['DateTime'], filtered_df['SmoothedTemperature'], linestyle='-', color='orange')
+        #plt.grid(True)
+        #plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
         img_stream = BytesIO()
         plt.savefig(img_stream, format='jpg')
         plt.close()
