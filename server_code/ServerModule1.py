@@ -58,6 +58,7 @@ def extract_temperatures_from_csv(file_path, start_datetime, end_datetime):
     # Read the CSV file into a DataFrame
     bytes_data = file_path.get_bytes()
     df = pd.read_csv(BytesIO(bytes_data)) 
+    print(df.columns)
     df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
     filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
     # Extract the temperature values from the 'Temperature' column if it exists

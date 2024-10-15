@@ -98,6 +98,10 @@ class Form1(Form1Template):
           all_valid = False
         # Call server function to save user choice
         if all_valid:
+             print("Start Date=", start_date)
+             print("End Date=", end_date)
+             print("Start Time=", start_time)
+             print("End Time=", end_time)
              blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
