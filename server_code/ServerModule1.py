@@ -149,7 +149,7 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
               # Plot the filtered data using the new DateTime column for x-axis
               plt.plot(filtered_data['DateTime'], 
                       filtered_data['SmoothedTemperature'], 
-                      linestyle='-', color=colors[idx])
+                      linestyle='-', color=colors[idx], label=file.name)
           else:
               print(f"No data in {file} for the given time period.")
     # Step 4: Add titles and labels
