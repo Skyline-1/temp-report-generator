@@ -131,6 +131,7 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
     # Initialize an empty DataFrame for combined data
     combined_data = pd.DataFrame()  
     # Step 3: Loop through each CSV file and filter data
+     
     for idx, file in enumerate(csv_files):
           # Read the CSV file
           bytes_data = file.get_bytes()
@@ -140,19 +141,23 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
           #df = pd.read_csv(file)
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
           filtered_data = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
+          filtered_data['SmoothedTemperature'] = filtered_data['Temperature'].rolling(window=5).mean()
           # Check if filtered data is not empty before plotting
           if not filtered_data.empty:
               # Append the filtered data to the combined DataFrame
               combined_data = pd.concat([combined_data, filtered_data], ignore_index=True)
               # Plot the filtered data using the new DateTime column for x-axis
               plt.plot(filtered_data['DateTime'], 
-                      filtered_data['Temperature'], 
+                      filtered_data['SmoothedTemperature'], 
                       linestyle='-', color=colors[idx])
           else:
               print(f"No data in {file} for the given time period.")
     # Step 4: Add titles and labels
     plt.xlabel('Temperature (°C)')
     plt.ylabel('Date and Time')
+    min_temp = filtered_data['Temperature'].min()
+    max_temp = filtered_data['Temperature'].max()
+    ax.set_yticks(np.arange(np.floor(min_temp), np.ceil(max_temp) + 1, 1))
     plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
     plt.legend()
     plt.grid()
@@ -220,12 +225,8 @@ def generate_graph_for_time_range(filtered_df, image_path):
         min_temp = filtered_df['Temperature'].min()
         max_temp = filtered_df['Temperature'].max()
         ax.set_yticks(np.arange(np.floor(min_temp), np.ceil(max_temp) + 1, 1))
-        ax.axhspan(14, 16, facecolor='blue', alpha=0.1)
-        ax.axhspan(16, 20, facecolor='green', alpha=0.1)
-        ax.axhspan(20, 26, facecolor='red', alpha=0.1)
-        
         # Plot smoothed line, dropping NaN values that might arise from the rolling window
-        plt.plot(filtered_df['DateTime'], filtered_df['SmoothedTemperature'], linestyle='-', color='orange')
+        plt.plot(filtered_df['DateTime'], filtered_df['SmoothedTemperature'], linestyle='-', color='black')
         #plt.grid(True)
         #plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
         img_stream = BytesIO()
