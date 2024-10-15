@@ -226,7 +226,10 @@ def generate_graph_for_time_range(filtered_df, image_path):
         max_temp = filtered_df['Temperature'].max()
         ax.set_yticks(np.arange(np.floor(min_temp), np.ceil(max_temp) + 1, 1))
         # Plot smoothed line, dropping NaN values that might arise from the rolling window
-        plt.plot(filtered_df['DateTime'], filtered_df['SmoothedTemperature'], linestyle='-', color='black')
+        plt.plot(filtered_df['DateTime'], filtered_df['SmoothedTemperature'], linestyle='-', color='orange')
+        ax.axhspan(14, 16, facecolor='blue', alpha=0.1)
+        ax.axhspan(16, 20, facecolor='green', alpha=0.1)
+        ax.axhspan(20, 26, facecolor='red', alpha=0.1)
         #plt.grid(True)
         #plt.tight_layout(pad=1.5, w_pad=3.5, h_pad=1.0)
         img_stream = BytesIO()
