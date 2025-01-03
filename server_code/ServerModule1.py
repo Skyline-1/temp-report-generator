@@ -125,7 +125,7 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
     num_files = len(csv_files)
     colors = plt.cm.viridis(np.linspace(0, 1, num_files))
     # Step 2: Create a new figure for plotting
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(16, 9))
     ax = plt.gca() 
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y\n%I:%M:%S %p'))
     # Initialize an empty DataFrame for combined data
