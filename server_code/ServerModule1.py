@@ -141,7 +141,8 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
           #df = pd.read_csv(file)
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
           filtered_data = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime)]
-          filtered_data['SmoothedTemperature'] = filtered_data['Temperature'].rolling(window=5).mean()
+          #filtered_data['SmoothedTemperature'] = filtered_data['Temperature'].rolling(window=5).mean()
+          filtered_data['SmoothedTemperature'] = filtered_data['Temperature']
           # Check if filtered data is not empty before plotting
           if not filtered_data.empty:
               # Append the filtered data to the combined DataFrame
@@ -179,7 +180,7 @@ def low_high_calculator(folder_path, doc, temp, str_value, start_datetime, end_d
           bytes_data = filename.get_bytes()
           df = pd.read_csv(BytesIO(bytes_data)) 
           df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-          filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] >= end_datetime) & (df['Temperature'] == temp)]
+          filtered_df = df[(df['DateTime'] >= start_datetime) & (df['DateTime'] <= end_datetime) & (df['Temperature'] == temp)]
           if not filtered_df.empty:
               row = filtered_df.iloc[0]
               row_cells = table.add_row().cells
