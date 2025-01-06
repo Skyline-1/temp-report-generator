@@ -56,6 +56,7 @@ def update_style(table):
             run.font.color.rgb = RGBColor(255, 255, 255)  # White text
 def extract_temperatures_from_csv(file_path, start_datetime, end_datetime):
     temperatures = []
+    print("file_path=", file_path)
     # Read the CSV file into a DataFrame
     bytes_data = file_path.get_bytes()
     df = pd.read_csv(BytesIO(bytes_data)) 
@@ -66,6 +67,7 @@ def extract_temperatures_from_csv(file_path, start_datetime, end_datetime):
         temperatures = filtered_df['Temperature'].dropna().tolist()
     else:
         print(f"Column 'Temperature' not found in file: {file_path}")
+    print("Temperatures=", temperatures)
     return temperatures
   
 def calculate_diff(start_time, end_time):
@@ -98,6 +100,7 @@ def process_file(doc, files, start_datetime, end_datetime):
     table.cell(0, 1).text = 'Average [°C]'
     table.cell(0, 2).text = 'Minimum [°C]'
     table.cell(0, 3).text = 'Maximum [°C]'
+    print("files=", files)
     for filename in files:
         temperatures = extract_temperatures_from_csv(filename, start_datetime, end_datetime)
         max_temp = max(temperatures)
