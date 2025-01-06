@@ -422,5 +422,7 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_date_str = end_date.strftime('%Y-%m-%d')
     end_str = end_date_str + " " + end_time
     end_datetime = pd.to_datetime(end_str)
+    print("start_datetime=", start_datetime)
+    print("end_datetime=", end_datetime)
     return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name)
 
