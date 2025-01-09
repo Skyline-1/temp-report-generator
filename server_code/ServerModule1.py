@@ -317,18 +317,18 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
 def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name):
     doc = Document()
     if start_input == 1:
-        title = doc.add_heading('Field Shipment Test – 6-Hour Mapping-Empty Trailer', level=1)
+        title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
-        title = doc.add_heading('Field Shipment Test – 6-Hour Mapping-Loaded Trailer', level=1)
+        title = doc.add_heading('6-Hour Mapping-Loaded Trailer', level=1)
     elif start_input == 3:
-        title = doc.add_heading('Field Shipment Test – 1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
+        title = doc.add_heading('1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
     elif start_input == 4:
-        title = doc.add_heading('Field Shipment Test – 1-Minute Open Door-Loaded Trailer', level=1)
+        title = doc.add_heading('1-Minute Open Door-Loaded Trailer', level=1)
     else:
-        title = doc.add_heading('Field Shipment Test – 2-Hour Field Shipment Test-Loaded Trailer', level=1)
+        title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    second_title = doc.add_heading(company_name + ' : Unit 324 Set Point ' +  str(set_point) + ' °C', level=2)
+    second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
     second_title.italic = True
     second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     update_heading_style(second_title)
