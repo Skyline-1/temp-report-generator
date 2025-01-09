@@ -44,7 +44,16 @@ def get_temp_range(folder_path, set_point):
 def update_heading_style(heading):
     for run in heading.runs:
         run.font.color.rgb = RGBColor(0, 0, 0)
-
+def update_summary_table_style(table, row_number):
+    for cell in table.rows[row_number].cells:
+    # Set background color to black
+        shading_elm = OxmlElement('w:shd')
+        shading_elm.set(qn('w:fill'), '000000')  # Black color
+        cell._element.get_or_add_tcPr().append(shading_elm)
+    # Set text color to white
+    for paragraph in cell.paragraphs:
+        for run in paragraph.runs:
+            run.font.color.rgb = RGBColor(255, 255, 255)
 def update_style(table):
     for cell in table.rows[0].cells:
     # Set background color to black
@@ -321,9 +330,26 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     #image=doc.add_paragraph()
     #run=image.add_run()
     #run.add_picture("skyline logo.png",width=logo_width)
+    if start_input == 1:
+        title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
+    elif start_input == 2:
+        title = doc.add_heading('6-Hour Mapping-Loaded Trailer', level=1)
+    elif start_input == 3:
+        title = doc.add_heading('1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
+    elif start_input == 4:
+        title = doc.add_heading('1-Minute Open Door-Loaded Trailer', level=1)
+    else:
+        title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
+    update_heading_style(title)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
+    second_title.italic = True
+    second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    update_heading_style(second_title)
     title=doc.add_heading('Summary', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    title.italic = True
     table = doc.add_table(rows=6, cols=1)
     table.style = 'Table Grid'
     table.autofit = True
@@ -362,26 +388,15 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Finding')
     run.bold = True  # Make the text bold
     if set_point == 20:
-      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 15°c to 25°c (Installation / Operational / Performance) in {season} condition."
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 15°C to 25°C (Installation / Operational) in {season} condition."
     elif set_point == 5:
-      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 2°c to 8°c (Installation / Operational / Performance) in {season} condition."
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 2°C to 8°C (Installation / Operational) in {season} condition."
     table.cell(5, 0).text = finding
-    if start_input == 1:
-        title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
-    elif start_input == 2:
-        title = doc.add_heading('6-Hour Mapping-Loaded Trailer', level=1)
-    elif start_input == 3:
-        title = doc.add_heading('1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
-    elif start_input == 4:
-        title = doc.add_heading('1-Minute Open Door-Loaded Trailer', level=1)
-    else:
-        title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
-    update_heading_style(title)
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
-    second_title.italic = True
-    second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    update_heading_style(second_title)
+    update_summary_table_style(table, 0)
+    update_summary_table_style(table, 2)
+    update_summary_table_style(table, 4)
+    heading=doc.add_heading('Details', level=1)
+    update_heading_style(heading)
     heading=doc.add_heading('1: General', level=2)
     update_heading_style(heading)
     table = doc.add_table(rows=5, cols=2)
