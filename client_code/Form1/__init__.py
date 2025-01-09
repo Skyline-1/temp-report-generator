@@ -15,6 +15,12 @@ class Form1(Form1Template):
         error_messages = []
         all_valid = True
         # Check if trailer is selected or not
+        selected_value=0
+        print(self.radio_button_1.selected)
+        print(self.radio_button_1.selected)
+        print(self.radio_button_5.selected)
+        print(self.radio_button_6.selected)
+        print(self.radio_button_7.selected)
         if self.radio_button_1.selected:
           selected_value = 1
         elif self.radio_button_2.selected:
@@ -25,6 +31,7 @@ class Form1(Form1Template):
           selected_value = 4
         elif self.radio_button_7.selected:
           selected_value = 5
+        print(selected_value)
         if not (self.radio_button_1.selected or self.radio_button_2.selected or self.radio_button_5.selected or self.radio_button_6.selected or self.radio_button_7.selected):
           error_messages.append("Select one option from trailer group")
           all_valid = False
@@ -85,8 +92,17 @@ class Form1(Form1Template):
           temp_value = 20
         elif self.radio_button_8.selected:
           temp_value = -20
+        
         if not (self.radio_button_3.selected or self.radio_button_4.selected or self.radio_button_8.selected):
           error_messages.append("Temp value is required")
+          all_valid = False
+        season = self.text_box_7.text
+        if not season:
+          error_messages.append("Season is required")
+          all_valid = False
+        trailer_no = self.text_box_6.text
+        if not trailer_no:
+          error_messages.append("Trailer number is required")
           all_valid = False
         company_name = self.text_box_5.text
         if not company_name:
@@ -102,7 +118,7 @@ class Form1(Form1Template):
              print("End Date=", end_date)
              print("Start Time=", start_time)
              print("End Time=", end_time)
-             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files)
+             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link

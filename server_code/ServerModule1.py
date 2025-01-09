@@ -3,6 +3,7 @@ from scipy.interpolate import make_interp_spline
 import anvil.server
 import pandas as pd
 import os
+from docx.enum.table import WD_TABLE_ALIGNMENT
 import io
 import time
 from io import StringIO
@@ -314,8 +315,57 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         diff_time = calculate_diff(start_datetime, end_datetime)
         table.cell(7, 1).text = diff_time
     
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season):
     doc = Document()
+    #logo_width = Inches(4.5)
+    #image=doc.add_paragraph()
+    #run=image.add_run()
+    #run.add_picture("skyline logo.png",width=logo_width)
+    title=doc.add_heading('Summary', level=1)
+    update_heading_style(title)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    table = doc.add_table(rows=6, cols=1)
+    table.style = 'Table Grid'
+    table.autofit = True
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('Summary of Protocol')
+    run.bold = True  # Make the text bold
+    summary_protocol = ""
+    if set_point == 20:
+      summary_protocol = f"Skyline Cargo trailer {trailer_no} was mapped in {season} for temperature. The temperature range for the trailer being qualified is from 15°C to 25°C "
+    else:
+      summary_protocol = f"Skyline Cargo trailer {trailer_no} was mapped in {season} for temperature. The temperature range for the trailer being qualified is from 2°C to 8°C "
+    table.cell(1, 0).text = summary_protocol
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Result from Study')
+    run.bold = True  # Make the text bold
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('IQ: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('Verification of the Installation parameters was successfully recorded.\n\n')
+    if start_input == 1:
+        run = cell.paragraphs[0].add_run('OQ Empty Test Results:\n ')
+    elif start_input == 2:
+        run = cell.paragraphs[0].add_run('OQ Loaded Test Results:\n ')
+    elif start_input == 3 or start_input == 4:
+        run = cell.paragraphs[0].add_run('Loaded Trailer Power Failure and Open-Door Test:')
+    elif start_input == 5:
+        run = cell.paragraphs[0].add_run('Loaded Trailer Power Failure and Open-Door Test:')
+    run.bold = True
+    total_max, total_min, total_avg = process_all_files(files, start_datetime, end_datetime)
+    if set_point == 20:
+      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 15°C to 25°C, and ranged from a minimum {total_min}°C see data test sheets) to a maximum of {total_max}°C see data test sheets.')
+    if set_point == 5:
+      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 2°C to 8°C, and ranged from a minimum {total_min}°C see data test sheets) to a maximum of {total_max}°C see data test sheets.')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Finding')
+    run.bold = True  # Make the text bold
+    if set_point == 20:
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 15°c to 25°c (Installation / Operational / Performance) in {season} condition."
+    elif set_point == 5:
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 2°c to 8°c (Installation / Operational / Performance) in {season} condition."
+    table.cell(5, 0).text = finding
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
@@ -419,7 +469,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         'Temp Report.docx'
     ) 
 @anvil.server.callable
-def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files):
+def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season):
     start_date_str = start_date.strftime('%Y-%m-%d')
     start_str = start_date_str + " " + start_time
     start_datetime = pd.to_datetime(start_str)
@@ -428,5 +478,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_datetime = pd.to_datetime(end_str)
     print("start_datetime=", start_datetime)
     print("end_datetime=", end_datetime)
-    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name)
+    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season)
 
