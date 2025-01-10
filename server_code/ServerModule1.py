@@ -6,6 +6,7 @@ import os
 from docx.enum.table import WD_TABLE_ALIGNMENT
 import io
 import time
+from datetime import datetime
 from io import StringIO
 import statistics
 #import win32com.client
@@ -212,12 +213,30 @@ def extract_temp_from_csv(file_path):
 
 def process_all_files(folder_path, start_datetime, end_datetime):
     # Convert start and end date/time strings to datetime objects
+    start_datetime = pd.to_datetime(start_datetime)
+    end_datetime = pd.to_datetime(end_datetime)
+    
     all_temperatures = []
-    # Iterate over each CSV file in the given folder
-    for filename in folder_path:
-            temperatures = extract_temp_from_csv(filename)
-            all_temperatures.extend(temperatures)  # Collect temperatures from each file
-    # Calculate the maximum and minimum temperature across all files for the given range
+    
+    for file_obj in folder_path:
+        # Check if file_obj is a StreamingMedia object and convert it
+        if hasattr(file_obj, 'get_bytes'):
+            file_data = BytesIO(file_obj.get_bytes())
+        else:
+            raise ValueError("Unsupported file object type.")
+        
+        # Load the CSV file into a DataFrame
+        df = pd.read_csv(file_data)
+        
+        # Combine 'Date' and 'Time' into a single 'datetime' column if needed
+        if 'datetime' not in df.columns:
+            df['datetime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+        
+        # Filter rows within the date-time range
+        filtered_df = df[(df['datetime'] >= start_datetime) & (df['datetime'] <= end_datetime)]
+        
+        # Collect the temperatures
+        all_temperatures.extend(filtered_df['Temperature'].tolist())
     if all_temperatures:
         max_temp = max(all_temperatures)
         min_temp = min(all_temperatures)
@@ -381,16 +400,16 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     total_max, total_min, total_avg = process_all_files(files, start_datetime, end_datetime)
     if set_point == 20:
-      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 15°C to 25°C, and ranged from a minimum {total_min}°C see data test sheets) to a maximum of {total_max}°C see data test sheets.')
+      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 15°C to 25°C, and ranged from a minimum {total_min}°C see data test sheets to a maximum of {total_max}°C see data test sheets.')
     if set_point == 5:
-      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 2°C to 8°C, and ranged from a minimum {total_min}°C see data test sheets) to a maximum of {total_max}°C see data test sheets.')
+      cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 2°C to 8°C, and ranged from a minimum {total_min}°C see data test sheets to a maximum of {total_max}°C see data test sheets.')
     cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('Finding')
     run.bold = True  # Make the text bold
     if set_point == 20:
-      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 15°C to 25°C (Installation / Operational) in {season} condition."
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for cold chain temperature specifications of 15°C to 25°C (Installation / Operational) in {season} condition."
     elif set_point == 5:
-      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for ambient temperature specifications of 2°C to 8°C (Installation / Operational) in {season} condition."
+      finding = f"Skyline Cargo trailer {trailer_no} was successfully qualified for cold chain temperature specifications of 2°C to 8°C (Installation / Operational) in {season} condition."
     table.cell(5, 0).text = finding
     update_summary_table_style(table, 0)
     update_summary_table_style(table, 2)
