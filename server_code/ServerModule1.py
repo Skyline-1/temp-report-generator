@@ -154,21 +154,21 @@ def get_min_max_average_graph(df):
         zorder=1
     )
     plt.scatter(x, df['Min Temp'][i], color='blue', label='Min Temp' if i == 0 else "", marker='s', zorder=2)
-    plt.text(x, df['Min Temp'][i], 
+    plt.text(x, df['Min Temp'][i],  df['Min Temp'][i],
         fontsize=12, 
         color='blue', 
         ha='right', 
         va='bottom'
     )
     plt.scatter(x, df['Avg Temp'][i], color='green', label='Avg Temp' if i == 0 else "", marker='o', zorder=2)
-    plt.text(x, df['Avg Temp'][i], 
+    plt.text(x, df['Avg Temp'][i], df['Avg Temp'][i], 
         fontsize=12, 
         color='green', 
         ha='right', 
         va='bottom'
     )
     plt.scatter(x, df['Max Temp'][i], color='red', label='Max Temp' if i == 0 else "", marker='^', zorder=2)
-    plt.text(x, df['Max Temp'][i], 
+    plt.text(x, df['Max Temp'][i], df['Max Temp'][i], 
         fontsize=12, 
         color='red', 
         ha='right', 
@@ -555,6 +555,40 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 0).text = 'Number of sensors'
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
+    title=doc.add_heading('5. Analysis and Conclusion', level=1)
+    update_heading_style(title)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    title.italic = True
+    table = doc.add_table(rows=6, cols=1)
+    table.style = 'Table Grid'
+    table.autofit = True
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('Test Function No. 1: Temperature Distribution Verification')
+    run.bold = True  # Make the text bold
+    summary_protocol = "It has been demonstrated that the temperature is uniform and stable in accordance with the design specifications of the Trailer.\n\n"
+    summary_protocol += "For the "
+    if start_input == 1:
+        summary_protocol += '6-Hour Mapping-Empty Trailer'
+    elif start_input == 2:
+        summary_protocol += '6-Hour Mapping-Loaded Trailer'
+    elif start_input == 3:
+        summary_protocol += '1-Hour Temperature-Control Power Failure-Loaded Trailer'
+    elif start_input == 4:
+        summary_protocol += '1-Minute Open Door-Loaded Trailer'
+    else:
+        summary_protocol += '2-Hour Field Shipment Test-Loaded Trailer'
+    summary_protocol += "\n\nThe temperature readings recorded by each of the sensors located in the trailer must remain within"
+    if set_point == 5:
+      summary_protocol += "(2°C to 8°C)"
+    elif set_point == 20:
+      summary_protocol += "(15°C to 25°C)"
+    nested_table = summary_protocol.add_table(rows=3, cols=4)
+    nested_table.cell(0, 1) = 'Min'
+    nested_table.cell(0, 2) = 'Max'
+    nested_table.cell(0, 3) = 'Average'
+    table.cell(1, 0).text = summary_protocol
+    cell = table.cell(2, 0)
     doc_stream = io.BytesIO()
     doc.save(doc_stream) 
     doc_stream.seek(0)
