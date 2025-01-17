@@ -112,6 +112,7 @@ def process_file(doc, files, start_datetime, end_datetime):
     table.cell(0, 1).text = 'Average [°C]'
     table.cell(0, 2).text = 'Minimum [°C]'
     table.cell(0, 3).text = 'Maximum [°C]'
+    min_max_avg_df = pd.DataFrame(columns=["Filename", "Min Temp", "Max Temp", "Avg Temp"])
     print("files=", files)
     for filename in files:
         temperatures = extract_temperatures_from_csv(filename, start_datetime, end_datetime)
@@ -124,6 +125,10 @@ def process_file(doc, files, start_datetime, end_datetime):
             overall_min = min(overall_min, min_temp)
             overall_max = max(overall_max, max_temp)
         avg_temp = round((max_temp+min_temp)/2, 2)
+        min_max_avg_df = pd.concat(
+        [min_max_avg_df, pd.DataFrame({"Filename": [filename.name], "Min Temp": [min_temp], "Max Temp": [max_temp], "Avg Temp": [avg_temp]})],
+        ignore_index=True,
+         )
         total_avg_time += int(avg_temp)
         row_cells = table.add_row().cells
         row_cells[0].text = str(filename.name)
@@ -132,7 +137,38 @@ def process_file(doc, files, start_datetime, end_datetime):
         row_cells[3].text = str(max_temp)
         index+=1
     total_avg_time/=(index-1)
-    return total_avg_time, overall_min, overall_max
+    return total_avg_time, overall_min, overall_max, min_max_avg_df
+
+def get_min_max_average_graph(df):
+  plt.figure(figsize=(20, 12))  # Set the figure size
+  
+  # Loop through each file and plot its min, avg, and max temperatures
+  for i in range(len(df)):
+    x = df['Filename'][i][0:7]
+    temps = [df['Min Temp'][i], df['Avg Temp'][i], df['Max Temp'][i]]
+    plt.plot(
+        [x, x, x],  # Repeating the sensor name
+        temps,  # Min, Avg, Max temps
+        color='magenta',  # Vertical line color
+        linestyle='-',  # Line style
+        zorder=1
+    )
+    plt.scatter(x, df['Min Temp'][i], color='blue', label='Min Temp' if i == 0 else "", marker='s', zorder=2)
+    plt.scatter(x, df['Avg Temp'][i], color='green', label='Avg Temp' if i == 0 else "", marker='o', zorder=2)
+    plt.scatter(x, df['Max Temp'][i], color='red', label='Max Temp' if i == 0 else "", marker='^', zorder=2)
+
+  # Add labels and legend
+  plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels
+  plt.xlabel('Sensor')
+  plt.ylabel('Temperature Degrees Centigrate')
+  #plt.title('Temperature Mapping - Individual Sensor Results')
+  plt.legend(title='Legend')
+  plt.grid(axis='y', linestyle='--', alpha=0.7)
+  
+  # Show the plot
+  plt.tight_layout()
+  plt.savefig("min_max_avg_plot.jpg")
+  return "min_max_avg_plot.jpg"
   
 def get_combined_graph(folder_path, start_datetime, end_datetime):
     # Step 1: Get all CSV files in the specified folder
@@ -165,7 +201,7 @@ def get_combined_graph(folder_path, start_datetime, end_datetime):
               # Plot the filtered data using the new DateTime column for x-axis
               plt.plot(filtered_data['DateTime'], 
                       filtered_data['SmoothedTemperature'], 
-                      linestyle='-', color=colors[idx], label=file.name)
+                      linestyle='-', color=colors[idx], label=file.name[0:7])
           else:
               print(f"No data in {file} for the given time period.")
     # Step 4: Add titles and labels
@@ -450,7 +486,13 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     update_heading_style(heading)
     heading = doc.add_heading('3.1: Average/Minimum/Maximum Temperature', level=2)
     update_heading_style(heading)
-    avg_temp, overall_min, overall_max = process_file(doc, files, start_datetime, end_datetime)
+    avg_temp, overall_min, overall_max, min_max_avg_df = process_file(doc, files, start_datetime, end_datetime)
+    min_max_avg_plot_path=get_min_max_average_graph(min_max_avg_df)
+    doc.add_heading('', level=1)
+    heading=doc.add_heading('Temperature Mapping - Individual Sensor Results', level=3)
+    update_heading_style(heading)
+    doc.add_picture(min_max_avg_plot_path, width=Inches(6.0)) 
+    doc.add_heading('', level=2)
     heading = doc.add_heading('3.2: Overall Temperature', level=2)
     update_heading_style(heading)
     table = doc.add_table(rows=2, cols=2)
