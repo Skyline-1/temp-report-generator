@@ -154,15 +154,34 @@ def get_min_max_average_graph(df):
         zorder=1
     )
     plt.scatter(x, df['Min Temp'][i], color='blue', label='Min Temp' if i == 0 else "", marker='s', zorder=2)
+    plt.text(x, df['Min Temp'][i], 
+        fontsize=12, 
+        color='blue', 
+        ha='right', 
+        va='bottom'
+    )
     plt.scatter(x, df['Avg Temp'][i], color='green', label='Avg Temp' if i == 0 else "", marker='o', zorder=2)
+    plt.text(x, df['Avg Temp'][i], 
+        fontsize=12, 
+        color='green', 
+        ha='right', 
+        va='bottom'
+    )
     plt.scatter(x, df['Max Temp'][i], color='red', label='Max Temp' if i == 0 else "", marker='^', zorder=2)
+    plt.text(x, df['Max Temp'][i], 
+        fontsize=12, 
+        color='red', 
+        ha='right', 
+        va='bottom'
+    )
 
   # Add labels and legend
-  plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels
-  plt.xlabel('Sensor')
-  plt.ylabel('Temperature Degrees Centigrate')
+  #ax.set_xticklabels(df["Filename"], fontsize=12, rotation=45, ha="right")
+  plt.xticks(fontsize=15, rotation=45, ha='right')  # Rotate x-axis labels
+  plt.xlabel('Sensor', fontsize=15)
+  plt.ylabel('Temperature Degrees Centigrate', fontsize=18)
   #plt.title('Temperature Mapping - Individual Sensor Results')
-  plt.legend(title='Legend')
+  plt.legend(title='Legend', title_fontsize=15, fontsize=15)
   plt.grid(axis='y', linestyle='--', alpha=0.7)
   
   # Show the plot
