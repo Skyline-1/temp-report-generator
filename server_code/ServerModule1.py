@@ -3,6 +3,7 @@ from scipy.interpolate import make_interp_spline
 import anvil.server
 import pandas as pd
 import os
+import statistics
 from docx.enum.table import WD_TABLE_ALIGNMENT
 import io
 import time
@@ -296,7 +297,8 @@ def process_all_files(folder_path, start_datetime, end_datetime):
         max_temp = max(all_temperatures)
         min_temp = min(all_temperatures)
         avg_temp = round(((max_temp+min_temp)/2), 2)
-        return max_temp, min_temp, avg_temp
+        median_temp=statistics.median(all_temperatures)
+        return max_temp, min_temp, avg_temp,median_temp
     else:
         print(f"No temperature data found between {start_datetime} and {end_datetime} across all files.")
 
@@ -453,7 +455,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     elif start_input == 5:
         run = cell.paragraphs[0].add_run('Loaded Trailer Power Failure and Open-Door Test:')
     run.bold = True
-    total_max, total_min, total_avg = process_all_files(files, start_datetime, end_datetime)
+    total_max, total_min, total_avg, total_median = process_all_files(files, start_datetime, end_datetime)
     if set_point == 20:
       cell.paragraphs[0].add_run(f'The temperature in the empty trailer was maintained for 6 hours within the temperature range from 15°C to 25°C, and ranged from a minimum {total_min}°C see data test sheets to a maximum of {total_max}°C see data test sheets.')
     if set_point == 5:
@@ -545,7 +547,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(0, 1).text = 'Value'
     table.cell(1, 0).text = 'Range'
     table.cell(1, 1).text = str(start_datetime) + '-' + str(end_datetime)
-    total_max, total_min, total_avg = process_all_files(files, start_datetime, end_datetime)
+    total_max, total_min, total_avg, total_median = process_all_files(files, start_datetime, end_datetime)
     table.cell(2, 0).text = 'Average'
     table.cell(2, 1).text = str(total_avg) + ' °C'
     table.cell(3, 0).text = 'Min/Max Thresholds'
@@ -555,11 +557,10 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 0).text = 'Number of sensors'
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
-    title=doc.add_heading('5. Analysis and Conclusion', level=1)
+    doc.add_heading(' ', level=2)
+    title=doc.add_heading('5. Analysis and Conclusion', level=2)
     update_heading_style(title)
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title.italic = True
-    table = doc.add_table(rows=6, cols=1)
+    table = doc.add_table(rows=2, cols=1)
     table.style = 'Table Grid'
     table.autofit = True
     table.allow_autofit = True
@@ -578,17 +579,34 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         summary_protocol += '1-Minute Open Door-Loaded Trailer'
     else:
         summary_protocol += '2-Hour Field Shipment Test-Loaded Trailer'
+    summary_protocol += ' performed at '
+    if set_point == 5:
+      summary_protocol += "(2°C to 8°C)"
+    elif set_point == 20:
+      summary_protocol += "(15°C to 25°C)"
+    summary_protocol += '.The following criteria must be met: '
     summary_protocol += "\n\nThe temperature readings recorded by each of the sensors located in the trailer must remain within"
     if set_point == 5:
       summary_protocol += "(2°C to 8°C)"
     elif set_point == 20:
       summary_protocol += "(15°C to 25°C)"
-    nested_table = summary_protocol.add_table(rows=3, cols=4)
-    nested_table.cell(0, 1) = 'Min'
-    nested_table.cell(0, 2) = 'Max'
-    nested_table.cell(0, 3) = 'Average'
+    summary_protocol += '\n\n                                                  Min             Median               Max'
+    summary_protocol += '\nTemperature                        '
+    summary_protocol += f'{total_min} °C       '
+    summary_protocol += f'{total_median} °C              '
+    summary_protocol += f'{total_max} °C   ' 
+    summary_protocol += '\nDifference from Setpoint       '
+    diff_temp=float(set_point)-float(total_min)
+    diff_temp=round(diff_temp, 1)
+    summary_protocol += f'{diff_temp} °C       '
+    diff_temp=float(set_point)-float(total_median)
+    diff_temp=round(diff_temp, 1)
+    summary_protocol += f'{diff_temp} °C              '
+    diff_temp=float(set_point)-float(total_max)
+    diff_temp=round(diff_temp, 1)
+    summary_protocol += f'{diff_temp} °C   ' 
     table.cell(1, 0).text = summary_protocol
-    cell = table.cell(2, 0)
+    update_summary_table_style(table, 0)
     doc_stream = io.BytesIO()
     doc.save(doc_stream) 
     doc_stream.seek(0)
