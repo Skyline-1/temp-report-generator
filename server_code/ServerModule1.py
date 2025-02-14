@@ -34,7 +34,6 @@ def generate_unique_id():
         if new_id not in generated_ids:
             generated_ids.add(new_id)
             return new_id
-def create_document_main_part():
   
 def get_temp_range(folder_path, set_point):
     if set_point == 20:
@@ -403,6 +402,38 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
 def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
+  doc.add_paragraph('SECTION 1: EXECUTIVE SUMMARY	_________________________________________________________4 ')
+  doc.add_paragraph('SECTION 2: APPROVAL SIGNATURES	_______________________________________________________5 ')
+  doc.add_paragraph('SECTION 3: REVISION HISTORY	_________________________________________________________6 ')
+  doc.add_paragraph('SECTION 4: SIGNATURE CONTROL FORM	___________________________________________________6 ')
+  doc.add_paragraph('SECTION 5: PROGRAM FORMAT	___________________________________________________________7 ')
+  p = doc.add_paragraph()
+  p.add_run('5.1: Objective ___________________________________________________________7').italic=True
+  p.add_run('5.2: Scope ___________________________________________________________7').italic=True
+  p.add_run('5.3: Rationale ___________________________________________________________7').italic=True
+  p.add_run('5.4: Responsibility ___________________________________________________________8').italic=True
+  p.add_run('5.5: Abbreviation/Glossary ___________________________________________________________8').italic=True
+  p.add_run('5.6: Deviations / Deficiencies___________________________________________________________9').italic=True
+  doc.add_paragraph('SECTION 6: CALIBRATION	___________________________________________________________10 ')
+  p = doc.add_paragraph()
+  p.add_run('6.1: Critical Instrumentation___________________________________________________________10').italic=True
+  p.add_run('6.2: Testing Instrumentation___________________________________________________________10').italic=True
+  doc.add_paragraph('SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST	_____________________________________11 ')
+  doc.add_paragraph('SECTION 8: CRITICAL OPERATING PARAMETERS	_____________________________________11 ')
+  doc.add_paragraph('SECTION 9: TEST FUNCTIONS	_____________________________________11 ')
+  p = doc.add_paragraph()
+  p.add_run('9.1: Test Function No. 1: Control Panel Verification	_____________________________________12 ').italic=True
+  p.add_run('9.2: Test Function No. 2: Major Components Operating Parameters Verification	_____________13 ').italic=True
+  p.add_run('9.3: Test Function No. 3: Empty Trailer Temperature Distribution Verification	_____________14 ').italic=True
+  p.add_run('9.4: Test Function No. 4: Trailer Recovery Verification	___________________________________14 ').italic=True
+  doc.add_paragraph('SECTION 10: ANALYSIS AND CONCLUSIONS ________________________________________________15 ')
+  doc.add_paragraph()
+  doc.add_paragraph()
+  doc.add_paragraph()
+  doc.add_paragraph('APPENDIX A:DRAWINGS _________________________________________________________________16')
+  doc.add_paragraph('APPENDIX B:TEST RESULTS TABLES AND GRAPHS ___________________________________________17')
+  doc.add_paragraph('APPENDIX C:RAW DATA SHEETS __________________________________________________________18')
+  doc.add_paragraph('APPENDIX C:RAW DATA SHEETS __________________________________________________________18')
   
 def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number):
     doc = Document()
