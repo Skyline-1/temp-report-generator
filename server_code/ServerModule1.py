@@ -34,7 +34,8 @@ def generate_unique_id():
         if new_id not in generated_ids:
             generated_ids.add(new_id)
             return new_id
-
+def create_document_main_part():
+  
 def get_temp_range(folder_path, set_point):
     if set_point == 20:
         return 15, 25
@@ -399,13 +400,74 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         table.cell(7, 0).text = 'Time: Within Min/Max'
         diff_time = calculate_diff(start_datetime, end_datetime)
         table.cell(7, 1).text = diff_time
-    
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season):
+def add_table_of_contents(doc):
+  title = doc.add_heading('Table of Contents ')
+  update_heading_style(title)
+  
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
     #run=image.add_run()
     #run.add_picture("skyline logo.png",width=logo_width)
+    title = doc.add_heading('Operational Qualification (OQ): Refrigerated Trailer ')
+    update_heading_style(title)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    table = doc.add_table(rows=10, cols=2)
+    table.style = 'Table Grid'
+    table.autofit = True
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('Protocol Number')
+    run.bold = True
+    cell = table.cell(0,1)
+    run = cell.paragraphs[0].add_run(protocol_number)
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('Document Number')
+    run.bold = True
+    cell = table.cell(1,1)
+    run = cell.paragraphs[0].add_run(document_number)
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Date Prepared')
+    run.bold = True
+    cell = table.cell(2,1)
+    run = cell.paragraphs[0].add_run(str(date.today()))
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Equipment Type')
+    run.bold = True
+    cell = table.cell(3,1)
+    run = cell.paragraphs[0].add_run(equipment_type)
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Make')
+    run.bold = True
+    cell = table.cell(4,1)
+    run = cell.paragraphs[0].add_run(make)
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('Model Number')
+    run.bold = True
+    cell = table.cell(5,1)
+    run = cell.paragraphs[0].add_run(model_number)
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('VIN Number')
+    run.bold = True
+    cell = table.cell(6,1)
+    run = cell.paragraphs[0].add_run(vin_number)
+    cell = table.cell(7, 0)
+    run = cell.paragraphs[0].add_run('Equipment Id No')
+    run.bold = True
+    cell = table.cell(7,1)
+    run = cell.paragraphs[0].add_run(equipment_number)
+    cell = table.cell(8, 0)
+    run = cell.paragraphs[0].add_run('Operating Conditions')
+    run.bold = True
+    cell = table.cell(8,1)
+    run = cell.paragraphs[0].add_run(operating_conditions)
+    cell = table.cell(8, 0)
+    run = cell.paragraphs[0].add_run('Owner')
+    run.bold = True
+    cell = table.cell(8,1)
+    run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
+    add_table_of_contents(doc)
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
@@ -417,7 +479,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     else:
         title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
     update_heading_style(title)
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    #title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
     second_title.italic = True
     second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
