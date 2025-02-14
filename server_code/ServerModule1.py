@@ -433,9 +433,12 @@ def add_table_of_contents(doc):
   doc.add_paragraph('APPENDIX A:DRAWINGS _________________________________________________________________16')
   doc.add_paragraph('APPENDIX B:TEST RESULTS TABLES AND GRAPHS ___________________________________________17')
   doc.add_paragraph('APPENDIX C:RAW DATA SHEETS __________________________________________________________18')
-  doc.add_paragraph('APPENDIX C:RAW DATA SHEETS __________________________________________________________18')
+  doc.add_paragraph('APPENDIX D:CRITICAL INSTRUMENT CALIBRATION REPORTS___________________________________19')
+  doc.add_paragraph('APPENDIX E:TESTING INSTRUMENT CALIBRATION REPORTS____________________________________20')
+  doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
+  doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, equipment_type, make,model_number,vin_number, equipment_number):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
