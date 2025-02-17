@@ -502,6 +502,108 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
     add_table_of_contents(doc)
+    title = doc.add_heading('SECTION 1 : EXECUTIVE SUMMARY', level=1)
+    update_heading_style(title)
+    table = doc.add_table(rows=6, cols=3)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('Make: ')
+    run.bold = True
+    cell = table.cell(0, 1)
+    run = cell.paragraphs[0].add_run('Model: ')
+    run.bold = True
+    cell = table.cell(0, 2)
+    run = cell.paragraphs[0].add_run('Serial: ')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('Client: Skyline Cargo')
+    run.bold = True
+    cell = table.cell(1, 1)
+    run = cell.paragraphs[0].add_run('Client Equipment ID: ')
+    run.bold = True
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('#1')
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('All features on the control panel operated according to design specifications.\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('#2')
+    cell = table.cell(3, 1)
+    run = cell.paragraphs[0].add_run('The unit’s major components operated according to design specifications.\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('#3')
+    cell = table.cell(4, 1)
+    run = cell.paragraphs[0].add_run('For the six (6) hour mapping performed at the empty trailer set-up conditions (2°C to 8°C), The temperature readings recorded by each of the sensors located in the trailer remained within (2°C to 8°C).\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('#4')
+    cell = table.cell(5, 1)
+    run = cell.paragraphs[0].add_run('For the six (6) hour mapping performed at the empty trailer set-up conditions (15°C to 25°C), The temperature readings recorded by each of the sensors located in the trailer remained within (15°C to 25°C). \n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    title = doc.add_heading('SECTION 2 : APPROVAL SIGNATURES', level=1)
+    update_heading_style(title)
+    table = doc.add_table(rows=9, cols=3)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('Document Name: ')
+    run.bold = True
+    cell = table.cell(0, 1)
+    run = cell.paragraphs[0].add_run('Document No.: ')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('Make:')
+    run.bold = True
+    cell = table.cell(1, 1)
+    run = cell.paragraphs[0].add_run('Model: ')
+    run.bold = True
+    cell = table.cell(1, 2)
+    run = cell.paragraphs[0].add_run('Serial: ')
+    run.bold = True
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Client: Skyline Cargo')
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('Contact: Paul Budwal')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Post-Execution Protocol Review:\n')
+    run.bold = True
+    cell.paragraphs[0].add_run('These signatures indicate that the protocol for the equipment designated above has been completed. The results have been reviewed by the client and found to satisfy all protocol requirements. Approval for the continued use of this equipment is hereby granted. ')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('NAME, TITLE, DEPARTMENT')
+    run.bold = True
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('SIGNATURE')
+    run.bold = True
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('DATE')
+    run.bold = True
+    cell = table.cell(7, 0)
+    run = cell.paragraphs[0].add_run('Paul Budwal\nTitle - QA   Skyline Cargo')
+    cell = table.cell(8, 0)
+    run = cell.paragraphs[0].add_run('Kam Budwal\nTitle - CEO   Skyline Cargo')
+    table = doc.add_table(rows=3, cols=4)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 3 : REVISION HISTORY')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('Revision No.')
+    run.bold = True
+    cell = table.cell(1, 1)
+    run = cell.paragraphs[0].add_run('Description')
+    run.bold = True
+    cell = table.cell(1, 2)
+    run = cell.paragraphs[0].add_run('Reason for revision')
+    run.bold = True
+    cell = table.cell(1, 3)
+    run = cell.paragraphs[0].add_run('Date of revision')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('00')
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('Original Document')
+    cell = table.cell(2, 2)
+    run = cell.paragraphs[0].add_run('Equipment Qualification')
+    cell = table.cell(2, 3)
+    run = cell.paragraphs[0].add_run(str(date.today()))
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
