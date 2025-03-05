@@ -743,6 +743,10 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('SECTION 6.1 : Critical Instrumentation')
     run.bold=True
     cell.paragraphs[0].add_run('\nThe following testing instrumentation were used during the execution and must have been calibrated using equipment that was traceable to national standards (NIST, NRC), within the last 12 months prior to execution. The thermocouples (temperature sensors) must have been calibrated prior to and verified after the execution of this qualification.')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
+    run.bold = True
+    run = cell.paragraphs[0].add_run(Calibration Date 
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
