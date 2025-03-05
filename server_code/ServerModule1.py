@@ -704,6 +704,45 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('\nA                       Amperes')
     cell.paragraphs[0].add_run('\ncGMP                    Current Good Manufacturing Practice')
     cell.paragraphs[0].add_run('\nHz                      H')
+    cell.paragraphs[0].add_run('\nHz                      H')
+    cell.paragraphs[0].add_run('\nNAP                     Not Applicable')
+    cell.paragraphs[0].add_run('\nNAV                     Not Available')
+    cell.paragraphs[0].add_run('\nNIST                    National Institute of Standards and Technology (USA)')
+    cell.paragraphs[0].add_run('\nNRC                     National Research Council (Canada)')
+    cell.paragraphs[0].add_run('\nph                      Phase')
+    cell.paragraphs[0].add_run('\nRH                      Relative Humidity')
+    cell.paragraphs[0].add_run('\nRTD                     Resistance Temperature Device')
+    cell.paragraphs[0].add_run('\nSOP                     Standard Operating Procedure')
+    cell.paragraphs[0].add_run('\nTBD                     To Be Determined')
+    cell.paragraphs[0].add_run('\nTC                      Thermocouple')
+    cell.paragraphs[0].add_run('\nVAC                     Volts Alternating Current')
+    cell.paragraphs[0].add_run('\nVDC                     Volts Direct Current')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=2, cols=1)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT (Continued)')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('5.6 : Deviations / Deficiencies  ')
+    run.bold=True
+    cell.paragraphs[0].add_run('\nIt is possible that during the execution of the validation protocol, that the pre-established test method may not be feasible. The changes made during execution are documented in a deviation report. The deviation report is used to document a deviation from an approved protocol. A deviation from an approved protocol is defined as, for example: a test methodology or acceptance criteria that was changed during execution but has no impact on the validity of the test. The deviation report describes the deviation, and the rationale is explained. ')
+    cell.paragraphs[0].add_run('\n\nA Deficiency is defined as a non-conformity identified during a protocol execution and that prevents from meeting the pre-established and approved acceptance criteria. A Deficiency is a non-planned event, which appears during a protocol execution. The deficiency report is used to identify any failure of the equipment, specifications or test results that do not meet the acceptance criteria of an approved validation protocol. As a rule, the deficiency is described by the person who performed validation of the equipment. ')
+    cell.paragraphs[0].add_run('\n\nThe impact on the system, the magnitude of the deficiency and the need for corrective action are evaluated by the most relevant person responsible concerning the actual deficiency. ')
+    cell.paragraphs[0].add_run('\n\nA critical deficiency is defined as critical regarding the quality of the product or the function of a critical piece of equipment or system. A critical deficiency prevents a protocol/final report from being approved and must be resolved before its approval.')
+    cell.paragraphs[0].add_run('\n\nIn case of a non-critical deficiency, the final report is approved conditionally, and an action plan is put in place in order to make sure that the corrective measures will be completed and documented. A non-critical deficiency does not affect the quality of the product or the function of a critical piece of equipment or system')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=25, cols=2)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 6 : CALIBRATION')
+    run.bold=True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('SECTION 6.1 : Critical Instrumentation')
+    run.bold=True
+    cell.paragraphs[0].add_run('\nThe following testing instrumentation were used during the execution and must have been calibrated using equipment that was traceable to national standards (NIST, NRC), within the last 12 months prior to execution. The thermocouples (temperature sensors) must have been calibrated prior to and verified after the execution of this qualification.')
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
