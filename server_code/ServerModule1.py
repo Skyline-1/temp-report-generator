@@ -746,7 +746,18 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
     run.bold = True
-    run = cell.paragraphs[0].add_run(Calibration Date 
+    run = cell.paragraphs[0].add_run("Calibration Date")
+    run.bold = True
+    cell = table.cell(3, 0)
+    cell.paragraphs[0].add_run('Temperature Controller')
+    cell = table.cell(3, 1)
+    cell.paragraphs[0].add_run('')
+    cell = table.cell(4, 0)
+    cell.paragraphs[0].add_run('Monitoring System Temperature Sensor ')
+    cell = table.cell(4, 1)
+    cell.paragraphs[0].add_run('')
+    cell = table.cell(5, 0)
+    cell.paragraphs[0].add_run('')
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
