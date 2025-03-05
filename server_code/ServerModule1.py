@@ -448,7 +448,7 @@ def add_table_of_contents(doc):
   doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
   doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, equipment_qual, revision_number, description, reason_for_revision):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
@@ -549,6 +549,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('#4')
     cell = table.cell(5, 1)
     run = cell.paragraphs[0].add_run('For the six (6) hour mapping performed at the empty trailer set-up conditions (15°C to 25°C), The temperature readings recorded by each of the sensors located in the trailer remained within (15°C to 25°C). \n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
     title = doc.add_heading('SECTION 2 : APPROVAL SIGNATURES', level=1)
     update_heading_style(title)
     table = doc.add_table(rows=9, cols=3)
@@ -590,31 +591,119 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Paul Budwal\nTitle - QA   Skyline Cargo')
     cell = table.cell(8, 0)
     run = cell.paragraphs[0].add_run('Kam Budwal\nTitle - CEO   Skyline Cargo')
-    table = doc.add_table(rows=3, cols=4)
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
     run = cell.paragraphs[0].add_run('SECTION 3 : REVISION HISTORY')
     run.bold = True
     cell = table.cell(1, 0)
-    run = cell.paragraphs[0].add_run('Revision No.')
+    run = cell.paragraphs[0].add_run('REVISION NO')
     run.bold = True
     cell = table.cell(1, 1)
-    run = cell.paragraphs[0].add_run('Description')
+    run = cell.paragraphs[0].add_run('DESCRIPTION')
     run.bold = True
     cell = table.cell(1, 2)
-    run = cell.paragraphs[0].add_run('Reason for revision')
+    run = cell.paragraphs[0].add_run('REASON FOR REVISION')
     run.bold = True
     cell = table.cell(1, 3)
-    run = cell.paragraphs[0].add_run('Date of revision')
+    run = cell.paragraphs[0].add_run('DATE OF REVISION')
+    run.bold = True
     cell = table.cell(2, 0)
-    run = cell.paragraphs[0].add_run('00')
+    run = cell.paragraphs[0].add_run(revision_number)
     cell = table.cell(2, 1)
-    run = cell.paragraphs[0].add_run('Original Document')
+    run = cell.paragraphs[0].add_run(description)
     cell = table.cell(2, 2)
-    run = cell.paragraphs[0].add_run('Equipment Qualification')
+    run = cell.paragraphs[0].add_run(reason_for_revision)
     cell = table.cell(2, 3)
-    run = cell.paragraphs[0].add_run(str(date.today()))
+    run = cell.paragraphs[0].add_run(creation_date)
+    table = doc.add_table(rows=8, cols=5)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 4 : SIGNATURE CONTROL FORM')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('All personnel who are involved in the execution and review of this protocols study results must enter samples of their signature and initials in the table below.')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('NAME')
+    run.bold = True
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('TITLE')
+    run.bold = True
+    cell = table.cell(2, 2)
+    run = cell.paragraphs[0].add_run('SIGNATURE')
+    run.bold = True
+    cell = table.cell(2, 3)
+    run = cell.paragraphs[0].add_run('INITIALS')
+    run.bold = True
+    cell = table.cell(2, 4)
+    run = cell.paragraphs[0].add_run('DATE')
+    run.bold = True
+    for row in range(3, 8):
+      for column in range(0, 5):
+        cell = table.cell(row, column)
+        run = cell.paragraphs[0].add_run('')
+    
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=4, cols=1)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('5.1: Objective')
+    run.bold = True
+    cell.paragraphs[0].add_run('\nThe objective of this protocol is to define and document the evidence needed to verify that the HYTR THE Trailer is operating according to HYTR and Skyline Cargo specifications, permitting operation as per design specifications as well as to cGMP.')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('5.2: Scope')
+    run.bold = True
+    cell.paragraphs[0].add_run('\nThe scope of this Operational Qualification study is limited to the equipment, instruments and components described in this protocol at the location stated in this protocol. ')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('5.3: Rationale')
+    run.bold = True
+    cell.paragraphs[0].add_run('\nThe Operational Qualification Protocol is designed to allow technical analysis of all applicable operational functions. The proper operation of the Trailer will be established based on the following characteristics and rationale:')
+    run = cell.paragraphs[0].add_run('\nTest Function No. 1:')
+    run.bold = True
+    cell.paragraphs[0].add_run('The operation of the control panel will be verified to demonstrate that it operates according to design specifications.')
+    run = cell.paragraphs[0].add_run('\nTest Function No. 2:')
+    run.bold = True
+    cell.paragraphs[0].add_run('The operation of the major components will be verified by testing the various inputs and outputs to and from those components.')
+    run = cell.paragraphs[0].add_run('\nTest Function No. 3:')
+    run.bold = True
+    cell.paragraphs[0].add_run('The temperature control and distribution within the Trailer will be demonstrated by conducting a four-hour mapping under empty Trailer conditions. The mapping will be conducted for the operating ranges of (2°C to 8°C) and (15°C to 25°C) at which the Trailer will be used. The reading interval is set at 1 minutes for the mapping study. To demonstrate that the Trailer temperature can remain within the established specifications for prolonged time periods, the temperatures recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) or (15°C to 25°C).')
+    table = doc.add_table(rows=3, cols=1)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT (Continued)')
+    run.bold = True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('5.4 : Responsibility ')
+    run.bold = True
+    cell.paragraphs[0].add_run('The following responsibilities were assigned for the operation qualification of the chamber:\n') 
+    run = cell.paragraphs[0].add_run('Responsibility                             QA                     Management\n') 
+    run.bold = True
+    cell.paragraphs[0].add_run('\n\nWrite the protocol')
+    cell.paragraphs[0].add_run('\nReview and approve the protocol')
+    cell.paragraphs[0].add_run('\nCalibrate the critical instruments')
+    cell.paragraphs[0].add_run('\nCalibrate and supply the testing instruments')
+    cell.paragraphs[0].add_run('\nEnsure that instruments are in calibrated state')
+    cell.paragraphs[0].add_run('\nProvide the functional specifications')
+    cell.paragraphs[0].add_run('\nConduct the testing as described in the protocol')
+    cell.paragraphs[0].add_run('\nCompile and analyze the test data')
+    cell.paragraphs[0].add_run('\nIssue the final validation report')
+    cell.paragraphs[0].add_run('\nReview and approve the final report')
+    cell.paragraphs[0].add_run('\Review and approve the deviation/deficiency report(s)')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('5.5: Abbreviation Glossary ')
+    run.bold = True
+    cell.paragraphs[0].add_run('\nAbbreviation            Description')
+    cell.paragraphs[0].add_run('\nA                       Amperes')
+    cell.paragraphs[0].add_run('\ncGMP                    Current Good Manufacturing Practice')
+    cell.paragraphs[0].add_run('\nHz                      H')
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
