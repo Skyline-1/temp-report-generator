@@ -438,7 +438,7 @@ def add_table_of_contents(doc):
   doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
   doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, equipment_type, make,model_number,vin_number, equipment_number, operating_conditions):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
@@ -470,7 +470,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Equipment Type')
     run.bold = True
     cell = table.cell(3,1)
-    run = cell.paragraphs[0].add_run(equipment_type)
+    run = cell.paragraphs[0].add_run("Refrigerated Trailer")
     cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('Make')
     run.bold = True
