@@ -746,6 +746,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
     run.bold = True
+    cell = table.cell(2, 1)
     run = cell.paragraphs[0].add_run("Calibration Date")
     run.bold = True
     cell = table.cell(3, 0)
@@ -757,7 +758,57 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(4, 1)
     cell.paragraphs[0].add_run('')
     cell = table.cell(5, 0)
-    cell.paragraphs[0].add_run('')
+    cell.paragraphs[0].add_run('Calibration certificates and reports relating to the calibration of the unit’s instrumentation will be annexed in Appendix D: Critical Instrument Calibration Reports')
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('SECTION 6.2 : Testing Instrumentation ')
+    run.bold=True
+    cell.paragraphs[0].add_run('The following testing instrumentation were used during the execution and must have been calibrated using equipment that was traceable to national standards (NIST, NRC), within the last 12 months prior to execution. The thermocouples (temperature sensors) must have been calibrated prior to and verified after the execution of this qualification.')
+    cell = table.cell(7, 0)
+    run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
+    run.bold = True
+    cell = table.cell(7, 1)
+    run = cell.paragraphs[0].add_run("Calibration Date")
+    run.bold = True
+    for i in range(8, 24):
+      for j in range(0, 2):
+        cell = table.cell(i, j)
+        cell.paragraphs[0].add_run('')
+    cell = table.cell(24, 0)
+    run = cell.paragraphs[0].add_run('Calibration certificates that relate to the calibration of the testing instrumentation will be annexed in Appendix E: Testing Instrument Calibration Reports. ')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=5, cols=4)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST ')
+    run.bold=True
+    cell = table.cell(1, 0)
+    cell.paragraphs[0].add_run('The following table lists all standard operating procedures that are directly applicable to the operation of the unit under study. All procedures must be completed prior to the approval of the operational qualification report. SOPs should include – Operation, Cleaning, Maintenance and Calibration of various critical instruments/devices. Respective personnel should be trained according to these SOP’s')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Document Number')
+    run.bold = True
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('Revision Number')
+    run.bold = True
+    cell = table.cell(2, 2)
+    run = cell.paragraphs[0].add_run('Title')
+    run.bold = True
+    cell = table.cell(2, 3)
+    run = cell.paragraphs[0].add_run('Status')
+    run.bold = True
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('')
+    cell = table.cell(3, 1)
+    run = cell.paragraphs[0].add_run('')
+    cell = table.cell(3, 2)
+    run = cell.paragraphs[0].add_run('Preventative Maintenance Policy')
+    cell = table.cell(3, 3)
+    run = cell.paragraphs[0].add_run('')
+    cell = table.cell(4, 0)
+    cell.paragraphs[0].add_run('STATUS LEGEND: \n')
+    cell.paragraphs[0].add_run("IP =	In-process        TBW = To Be Written\n")
+    cell.paragraphs[0].add_run("R =	Required            TBR = To Be Revised\n") 
+    cell.paragraphs[0].add_run("C =	Completed\n") 
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
