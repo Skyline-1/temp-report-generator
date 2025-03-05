@@ -399,6 +399,16 @@ def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
         table.cell(7, 0).text = 'Time: Within Min/Max'
         diff_time = calculate_diff(start_datetime, end_datetime)
         table.cell(7, 1).text = diff_time
+def add_equipment_table(doc, equipment_type, document_number, creation_date):
+  table = doc.add_table(rows=2, cols=2)
+  table.style = 'Table Grid'
+  table.autofit = True
+  table.allow_autofit = True
+  update_style(table)
+  table.cell(0, 0).text=f'Equipment: {equipment_type}'
+  table.cell(1, 0).text=f'Document: {document_number}'
+  table.cell(1, 1).text=f'Date: {creation_date}'
+  
 def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
@@ -438,7 +448,7 @@ def add_table_of_contents(doc):
   doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
   doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
@@ -465,7 +475,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Date Prepared')
     run.bold = True
     cell = table.cell(2,1)
-    run = cell.paragraphs[0].add_run(str(date.today()))
+    run = cell.paragraphs[0].add_run(creation_date)
     cell = table.cell(3, 0)
     run = cell.paragraphs[0].add_run('Equipment Type')
     run.bold = True
@@ -502,6 +512,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
     add_table_of_contents(doc)
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
     title = doc.add_heading('SECTION 1 : EXECUTIVE SUMMARY', level=1)
     update_heading_style(title)
     table = doc.add_table(rows=6, cols=3)
