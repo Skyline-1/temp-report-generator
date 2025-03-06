@@ -475,7 +475,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Date Prepared')
     run.bold = True
     cell = table.cell(2,1)
-    run = cell.paragraphs[0].add_run(creation_date)
+    run = cell.paragraphs[0].add_run(str(creation_date))
     cell = table.cell(3, 0)
     run = cell.paragraphs[0].add_run('Equipment Type')
     run.bold = True
@@ -505,7 +505,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Operating Conditions')
     run.bold = True
     cell = table.cell(8,1)
-    run = cell.paragraphs[0].add_run(operating_conditions)
+    run = cell.paragraphs[0].add_run(str(operating_conditions))
     cell = table.cell(8, 0)
     run = cell.paragraphs[0].add_run('Owner')
     run.bold = True
@@ -617,7 +617,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(2, 2)
     run = cell.paragraphs[0].add_run(reason_for_revision)
     cell = table.cell(2, 3)
-    run = cell.paragraphs[0].add_run(revision_date)
+    run = cell.paragraphs[0].add_run(str(revision_date))
     table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
