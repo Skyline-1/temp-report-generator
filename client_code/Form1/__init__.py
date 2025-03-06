@@ -92,7 +92,7 @@ class Form1(Form1Template):
           temp_value = 20
         elif self.radio_button_8.selected:
           temp_value = -20
-        
+        operating_conditions=temp_value
         if not (self.radio_button_3.selected or self.radio_button_4.selected or self.radio_button_8.selected):
           error_messages.append("Temp value is required")
           all_valid = False
@@ -112,13 +112,58 @@ class Form1(Form1Template):
         if not application_name:
           error_messages.append("Application name is required")
           all_valid = False
+        protocol_number = self.text_box_8.text
+        if not protocol_number:
+          error_messages.append("Protocol number is required")
+          all_valid = False
+        document_number = self.text_box_9.text
+        if not document_number:
+          error_messages.append("Document number is required")
+          all_valid = False  
+        make = self.text_box_10.text
+        if not make:
+          error_messages.append("Make is required")
+          all_valid = False 
+        model_number = self.text_box_11.text
+        if not model_number:
+          error_messages.append("Model number is required")
+          all_valid = False 
+        vin_number = self.text_box_12.text
+        if not vin_number:
+          error_messages.append("Vin number is required")
+          all_valid = False
+        equipment_number = self.text_box_13.text
+        if not equipment_number:
+          error_messages.append("Equipment Id is required")
+          all_valid = False
+        creation_date = self.date_picker_3.date
+        if not creation_date:
+          error_messages.append("Creation date is required")
+          all_valid = False
+        equipment_type= "Refrigerator Trailer"
+        revision_number = self.text_box_14.text
+        if not revision_number:
+          error_messages.append("Revision number is required")
+          all_valid = False
         # Call server function to save user choice
+        description = self.text_box_15.text
+        if not description:
+          error_messages.append("Description is required")
+          all_valid = False
+        reason_for_revision = self.text_box_16.text
+        if not reason_for_revision:
+          error_messages.append("Reason for revision is required")
+          all_valid = False
+        date_of_revision = self.date_picker_4.date
+        if not date_of_revision:
+          error_messages.append("Revision date is required")
+          all_valid = False
         if all_valid:
              print("Start Date=", start_date)
              print("End Date=", end_date)
              print("Start Time=", start_time)
              print("End Time=", end_time)
-             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season)
+             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, date_of_revision)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link

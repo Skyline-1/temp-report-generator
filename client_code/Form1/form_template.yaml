@@ -65,6 +65,62 @@ components:
     name: text_box_4
     properties: {placeholder: Enter end time}
     type: TextBox
+  - layout_properties: {grid_position: 'SAFSQA,ENJMQD'}
+    name: label_19
+    properties: {text: Enter creation date}
+    type: Label
+  - layout_properties: {grid_position: 'TVSNUC,WWIJMJ'}
+    name: date_picker_3
+    properties: {placeholder: Enter creation date}
+    type: DatePicker
+  - layout_properties: {grid_position: 'SEJCVF,RCOOHK'}
+    name: label_15
+    properties: {text: Enter make}
+    type: Label
+  - layout_properties: {grid_position: 'OQRSJN,KWWFRV'}
+    name: text_box_10
+    properties: {placeholder: Enter make information}
+    type: TextBox
+  - layout_properties: {grid_position: 'BUFCMO,GBUCBN'}
+    name: label_16
+    properties: {text: Enter model number}
+    type: Label
+  - layout_properties: {grid_position: 'HGJQGE,YEUOGS'}
+    name: text_box_11
+    properties: {placeholder: Enter model number}
+    type: TextBox
+  - layout_properties: {grid_position: 'ICKLVQ,CMIGER'}
+    name: label_20
+    properties: {text: Enter revision number}
+    type: Label
+  - layout_properties: {grid_position: 'VTHCSY,TOPDCY'}
+    name: text_box_14
+    properties: {placeholder: Enter revision number}
+    type: TextBox
+  - layout_properties: {grid_position: 'ZOLNQM,XABTLT'}
+    name: label_21
+    properties: {text: Enter description (mention details regarding the revision)}
+    type: Label
+  - layout_properties: {grid_position: 'ULYPAG,JTWMJD'}
+    name: text_box_15
+    properties: {placeholder: Enter description}
+    type: TextBox
+  - layout_properties: {grid_position: 'IUQKWR,AUBOSZ'}
+    name: label_22
+    properties: {text: Enter reason for revision}
+    type: Label
+  - layout_properties: {grid_position: 'IIVDWK,AFQKLS'}
+    name: text_box_16
+    properties: {placeholder: Enter reason for revision}
+    type: TextBox
+  - layout_properties: {grid_position: 'VVMAWP,PAOMHK'}
+    name: label_23
+    properties: {text: Enter revision date}
+    type: Label
+  - layout_properties: {grid_position: 'BIHGIP,TAEYEJ'}
+    name: date_picker_4
+    properties: {background: '', placeholder: Enter revision date}
+    type: DatePicker
   - layout_properties: {grid_position: 'HGRWPL,HRKXEB'}
     name: label_5
     properties: {text: 'Select cargo set point '}
@@ -122,6 +178,38 @@ components:
   - layout_properties: {grid_position: 'SFUCWI,GDDQTC'}
     name: text_box_2
     properties: {placeholder: Enter name of the application, text: ''}
+    type: TextBox
+  - layout_properties: {grid_position: 'NAUMFA,IBHJZT'}
+    name: label_13
+    properties: {text: Enter Protocol number}
+    type: Label
+  - layout_properties: {grid_position: 'XCNVRY,LHTKNH'}
+    name: text_box_8
+    properties: {placeholder: Enter protocol number}
+    type: TextBox
+  - layout_properties: {grid_position: 'RZETOC,EXIGUV'}
+    name: label_14
+    properties: {text: Enter Document number}
+    type: Label
+  - layout_properties: {grid_position: 'WTFBHO,GQQPGG'}
+    name: text_box_9
+    properties: {placeholder: Enter document number}
+    type: TextBox
+  - layout_properties: {grid_position: 'FMNJAF,BOQXLW'}
+    name: label_17
+    properties: {text: Enter VIN number}
+    type: Label
+  - layout_properties: {grid_position: 'NLTMRX,LJMWZD'}
+    name: text_box_12
+    properties: {placeholder: Enter vin number}
+    type: TextBox
+  - layout_properties: {grid_position: 'JLSEEE,SOMUUU'}
+    name: label_18
+    properties: {text: Enter Equipment Id}
+    type: Label
+  - layout_properties: {grid_position: 'CZRECC,HIOACV'}
+    name: text_box_13
+    properties: {placeholder: Enter equipment id}
     type: TextBox
   - event_bindings: {click: download_link_click}
     layout_properties: {grid_position: 'EERMTM,VIEGEK'}
