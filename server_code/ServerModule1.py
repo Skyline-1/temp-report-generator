@@ -957,6 +957,73 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(5, 1)
     run = cell.paragraphs[0].add_run('Conform (Y/N)')
     run.bold = True
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('When the Trailer temperature is below the set point programmed in the temperature controller, the compressor solenoids are set for hot gas. ')
+    cell = table.cell(6, 1)
+    run = cell.paragraphs[0].add_run(' ')
+    cell = table.cell(7, 0)
+    run = cell.paragraphs[0].add_run('When the Trailer temperature is above the set point programmed in the temperature controller, the compressor solenoids are set for full cooling')
+    cell = table.cell(7, 1)
+    run = cell.paragraphs[0].add_run(' ')
+    cell = table.cell(8, 0)
+    cell.paragraphs[0].add_run('Deviation / Deficiency Report No.')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=9, cols=2)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
+    run.bold=True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('9.3 Test Function No. 3: Trailer Temperature Distribution Verification ')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Objective: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('To demonstrate that the temperature is uniform and stable in accordance with the design specifications of the Trailer.')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('For the six (6) hour empty Trailer mappings performed at (2°C to 8°C).and at (15°C to 25°C), the following criteria must be met: ')
+    cell.paragraphs[0].add_run('\n\nThe temperature readings recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) and within (15°C to 25°C) respectively.')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Testing Equipment/Instruments: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('Temperature Loggers (8)')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Methodology: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('\n1.Position the loggers as per Appendix A, Drawing No. 1 – Temperature Mapping Locations. ')
+    cell.paragraphs[0].add_run('\n2.Set the loggers to record the temperatures at 1-minute intervals.  ')
+    cell.paragraphs[0].add_run('\n3.Verify the Trailer’s initial control set point.')
+    cell.paragraphs[0].add_run('\n4.Once the Trailer’s temperature has stabilized, note the test start time and let it run for at least six (6) hours.')
+    cell.paragraphs[0].add_run('\n5.Change and then verify the Trailer’s second control set-point.')
+    cell.paragraphs[0].add_run('\n6.Once the Trailer’s temperature has stabilized, note the test start time and let it run for at least six (6) hours. ')
+    cell.paragraphs[0].add_run('\n7.At the end of the test period, generate the raw data printouts and attach it in Appendix C, Item 3, Test Functions No. 3: Empty Trailer Temperature Distribution Verification –Data Logger Printouts. ')
+    cell.paragraphs[0].add_run('\n8.The data of the test will be exported to spreadsheets used to identify the highest and lowest temperatures, as well as to calculate the average temperature for each time interval (1-minute intervals). The spreadsheets will be attached in Appendix B, Item 1, Test Function No. 3: Trailer Temperature Distribution Verification – Test Result Tables and Graphs.')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=8, cols=1)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 10: ANALYSIS AND CONCLUSIONS')
+    run.bold=True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('10.1 Test Function No. 1: Control Panel Verification')
+    run.bold=True
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('It has been demonstrated that the control panel features operate as per design specifications\n\nAll features of the control panel operate as described in the Methodology Section')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('10.2 Test Function No. 2: Major Components Operating Parameters Verification ')
+    run.bold = True
+    cell = table.cell(4, 0)
+    cell.paragraphs[0].add_run('It has been demonstrated that the control panel features operate as per design specifications\n\nAll features of the control panel operate as described in the Methodology Section')
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('10.3 Test Function No. 3: Trailer Temperature Distribution Verification')
+    run.bold = True
+    cell = table.cell(6, 0)
+    cell.paragraphs[0].add_run('It has been demonstrated that the temperature is uniform and stable in accordance with the design specifications of the Trailer.\n\nFor the six (6) hours Trailer mappings performed at (2°C to 8°C). and (15°C to 25°C) the following criteria were met:\n\nThe temperature readings recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) and (15°C to 25°C) respectively. ')
+    cell = table.cell(7, 0)
+    run = cell.paragraphs[0].add_run('Deviation / Deficiency Report No.	            NAP ')  
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
