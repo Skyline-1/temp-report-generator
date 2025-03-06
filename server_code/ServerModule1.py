@@ -808,7 +808,155 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('STATUS LEGEND: \n')
     cell.paragraphs[0].add_run("IP =	In-process        TBW = To Be Written\n")
     cell.paragraphs[0].add_run("R =	Required            TBR = To Be Revised\n") 
-    cell.paragraphs[0].add_run("C =	Completed\n") 
+    cell.paragraphs[0].add_run("C =	Completed\n")
+    table = doc.add_table(rows=5, cols=3)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 8: CRITICAL OPERATING PARAMETERS')
+    run.bold=True
+    cell = table.cell(1, 0)
+    cell.paragraphs[0].add_run('The following parameters may have an impact on the proper operation of the Trailer. ')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Parameter')
+    run.bold = True
+    cell = table.cell(2, 1)
+    run = cell.paragraphs[0].add_run('Operating Range/Value')
+    run.bold = True
+    cell = table.cell(2, 2)
+    run = cell.paragraphs[0].add_run('Range/Value to be covered during this study')
+    run.bold = True
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Tailer Load Configuration')
+    cell = table.cell(3, 1)
+    run = cell.paragraphs[0].add_run('Empty to Fully Loaded')
+    cell = table.cell(3, 2)
+    run = cell.paragraphs[0].add_run('Empty')
+    cell = table.cell(4, 0)
+    cell.paragraphs[0].add_run('Temperature Setpoint')
+    cell = table.cell(4, 1)
+    cell.paragraphs[0].add_run('NAV')
+    cell = table.cell(4, 2)
+    cell.paragraphs[0].add_run('(2°C to 8°C) & (15°C to 25°C)')
+    table = doc.add_table(rows=2, cols=1)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS')
+    run.bold=True
+    cell = table.cell(1, 0)
+    cell.paragraphs[0].add_run('Test Function No. 1: Control Panel Verification')
+    cell.paragraphs[0].add_run('\nTest Function No. 2: Major Components Operating Parameters Verification')
+    cell.paragraphs[0].add_run('\nTest Function No. 3: Empty Trailer Temperature Distribution')
+    table = doc.add_table(rows=19, cols=2)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
+    run.bold=True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('Objective: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('To demonstrate that the control panel features operate as per design specifications.')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('All features of the control panel must operate as described in the Methodology Section.')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Testing Equipment / Instruments: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('None Required')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Methodology: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('None Required')
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('Control Panel ')
+    run.bold = True
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('Test ')
+    run.bold = True
+    cell = table.cell(6, 1)
+    run = cell.paragraphs[0].add_run('Conform Y/N ')
+    run.bold = True
+    cell = table.cell(7, 0)
+    cell.paragraphs[0].add_run('Main temperature display -  ')
+    cell.paragraphs[0].add_run('during normal operation, shows cabinet temperature in degrees Celsius, when the compressor is running, type of fuel, heating/cooling, and mode')
+    cell = table.cell(7, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(8, 0)
+    cell.paragraphs[0].add_run('– Increases the value of the selected setting')
+    cell = table.cell(8, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(9, 0)
+    cell.paragraphs[0].add_run('- Saves a change to the selected value.')
+    cell = table.cell(9, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(10, 0)
+    cell.paragraphs[0].add_run('- Decreases the value of the selected setting.')
+    cell = table.cell(10, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(11, 0)
+    cell.paragraphs[0].add_run('- Menu – switches between the various mode screens')
+    cell = table.cell(11, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(12, 0)
+    cell.paragraphs[0].add_run('- Defrost – Initiates a defrost cycle')
+    cell = table.cell(13, 0)
+    cell.paragraphs[0].add_run('Start Stop  Continuous – switches between controlled operation and continuous cooling')
+    cell = table.cell(13, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(14, 0)
+    cell.paragraphs[0].add_run('Start Stop  Continuous – switches between controlled operation and continuous cooling')
+    cell = table.cell(14, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(15, 0)
+    cell.paragraphs[0].add_run('– This flashes when there is an alarm state ')
+    cell = table.cell(15, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(16, 0)
+    run = cell.paragraphs[0].add_run('Alarm – ')
+    run.bold=True
+    cell.paragraphs[0].add_run('This key will display any active alarms and a list of previous alarms since the last clear ')
+    cell = table.cell(16, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(17, 0)
+    run = cell.paragraphs[0].add_run('Switching between modes matches the operator’s manual')
+    cell = table.cell(17, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(18, 0)
+    run = cell.paragraphs[0].add_run('Deviation / Deficiency Report No.')
+    add_equipment_table(doc, equipment_number, document_number, creation_date)
+    table = doc.add_table(rows=9, cols=2)
+    table.style = 'Table Grid' 
+    table.allow_autofit = True
+    cell = table.cell(0, 0)
+    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
+    run.bold=True
+    cell = table.cell(1, 0)
+    run = cell.paragraphs[0].add_run('9.2 Test Function No. 2: Major Components Operating Parameters Verification ')
+    cell = table.cell(2, 0)
+    run = cell.paragraphs[0].add_run('Objective: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('To demonstrate that major components and / or their associated inputs / outputs to and from the controller operates as per design specifications. ')
+    cell = table.cell(3, 0)
+    run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('All features of the major components must operate as described in the Methodology Section')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Testing Equipment / Instruments: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('Current Meter')
+    cell = table.cell(4, 0)
+    run = cell.paragraphs[0].add_run('Methodology: ')
+    run.bold = True
+    cell.paragraphs[0].add_run('As follows.')
+    cell = table.cell(5, 0)
+    run = cell.paragraphs[0].add_run('Test')
+    run.bold = True
+    cell = table.cell(5, 1)
+    run = cell.paragraphs[0].add_run('Conform (Y/N)')
+    run.bold = True
     if start_input == 1:
         title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
     elif start_input == 2:
