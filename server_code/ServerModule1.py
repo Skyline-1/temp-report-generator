@@ -448,7 +448,7 @@ def add_table_of_contents(doc):
   doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
   doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
@@ -617,7 +617,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(2, 2)
     run = cell.paragraphs[0].add_run(reason_for_revision)
     cell = table.cell(2, 3)
-    run = cell.paragraphs[0].add_run(creation_date)
+    run = cell.paragraphs[0].add_run(revision_date)
     table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -1234,7 +1234,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         'Temp Report.docx'
     ) 
 @anvil.server.callable
-def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, seasonprotocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision):
+def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date):
     start_date_str = start_date.strftime('%Y-%m-%d')
     start_str = start_date_str + " " + start_time
     start_datetime = pd.to_datetime(start_str)
@@ -1243,5 +1243,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_datetime = pd.to_datetime(end_str)
     print("start_datetime=", start_datetime)
     print("end_datetime=", end_datetime)
-    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision)
+    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date)
           
