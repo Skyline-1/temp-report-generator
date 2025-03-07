@@ -413,11 +413,10 @@ def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
   table = doc.add_table(rows=17, cols=2)
-
+  update_style(table)
+  table.style = 'Table Grid' 
+  table.allow_autofit = True
 # Remove table borders
-  for row in table.rows:
-      for cell in row.cells:
-          cell._element.getparent().remove(cell._element.find('./w:tcPr/w:tcBorders', cell._element.nsmap))
   table.cell(0, 0).text = "SECTION 1: EXECUTIVE SUMMARY"
   table.cell(0, 1).text = "4"
   table.cell(1, 0).text = "SECTION 2: APPROVAL SIGNATURES"
@@ -563,31 +562,34 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Serial: ')
     run.bold = True
     cell = table.cell(1, 0)
-    run = cell.paragraphs[0].add_run('Client: Skyline Cargo')
+    run = cell.paragraphs[0].add_run('Client:')
     run.bold = True
+    run = cell.paragraphs[0].add_run('Skyline cargo:')
     cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run('Client Equipment ID: ')
     run.bold = True
     cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('#1')
-    cell = table.cell(2, 1)
+    cell = table.cell(2, 1).merge(table.cell(2, 2))
     run = cell.paragraphs[0].add_run('All features on the control panel operated according to design specifications.\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
     cell = table.cell(3, 0)
     run = cell.paragraphs[0].add_run('#2')
-    cell = table.cell(3, 1)
+    cell = table.cell(3, 1).merge(table.cell(3, 2))
     run = cell.paragraphs[0].add_run('The unit’s major components operated according to design specifications.\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
     cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('#3')
-    cell = table.cell(4, 1)
+    cell = table.cell(4, 1).merge(table.cell(4, 2))
     run = cell.paragraphs[0].add_run('For the six (6) hour mapping performed at the empty trailer set-up conditions (2°C to 8°C), The temperature readings recorded by each of the sensors located in the trailer remained within (2°C to 8°C).\n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
     cell = table.cell(5, 0)
     run = cell.paragraphs[0].add_run('#4')
-    cell = table.cell(5, 1)
+    cell = table.cell(5, 1).merge(table.cell(5, 2))
     run = cell.paragraphs[0].add_run('For the six (6) hour mapping performed at the empty trailer set-up conditions (15°C to 25°C), The temperature readings recorded by each of the sensors located in the trailer remained within (15°C to 25°C). \n\nRESULTS:\n☐ PASS | ☐ FAIL\n Deviation Report No: _____________________     Deficiency Report No: _____________________')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
+    doc.add_paragraph()
     title = doc.add_heading('SECTION 2 : APPROVAL SIGNATURES', level=1)
     update_heading_style(title)
-    table = doc.add_table(rows=9, cols=3)
+    table = doc.add_table(rows=7, cols=3)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
@@ -616,43 +618,44 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('NAME, TITLE, DEPARTMENT')
     run.bold = True
-    cell = table.cell(5, 0)
+    cell = table.cell(4, 1)
     run = cell.paragraphs[0].add_run('SIGNATURE')
     run.bold = True
-    cell = table.cell(6, 0)
+    cell = table.cell(4, 2)
     run = cell.paragraphs[0].add_run('DATE')
     run.bold = True
-    cell = table.cell(7, 0)
+    cell = table.cell(5, 0)
     run = cell.paragraphs[0].add_run('Paul Budwal\nTitle - QA   Skyline Cargo')
-    cell = table.cell(8, 0)
+    cell = table.cell(6, 0)
     run = cell.paragraphs[0].add_run('Kam Budwal\nTitle - CEO   Skyline Cargo')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=8, cols=5)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 3 : REVISION HISTORY', level=1)
+    table = doc.add_table(rows=2, cols=4)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 3 : REVISION HISTORY')
-    run.bold = True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('REVISION NO')
     run.bold = True
-    cell = table.cell(1, 1)
+    cell = table.cell(0, 1)
     run = cell.paragraphs[0].add_run('DESCRIPTION')
     run.bold = True
-    cell = table.cell(1, 2)
+    cell = table.cell(0, 2)
     run = cell.paragraphs[0].add_run('REASON FOR REVISION')
     run.bold = True
-    cell = table.cell(1, 3)
+    cell = table.cell(0, 3)
     run = cell.paragraphs[0].add_run('DATE OF REVISION')
     run.bold = True
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run(revision_number)
-    cell = table.cell(2, 1)
+    cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run(description)
-    cell = table.cell(2, 2)
+    cell = table.cell(1, 2)
     run = cell.paragraphs[0].add_run(reason_for_revision)
-    cell = table.cell(2, 3)
+    cell = table.cell(1, 3)
     run = cell.paragraphs[0].add_run(str(revision_date))
+    doc.add_paragraph()
     table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
