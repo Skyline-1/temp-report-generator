@@ -507,7 +507,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     title = doc.add_heading('Operational Qualification (OQ): Refrigerated Trailer', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    table = doc.add_table(rows=10, cols=2)
+    table = doc.add_table(rows=11, cols=2)
     table.style = 'Table Grid'
     table.autofit = True
     table.allow_autofit = True
@@ -556,10 +556,15 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run(str(operating_conditions))
-    cell = table.cell(9, 0)
-    run = cell.paragraphs[0].add_run('Owner')
+    cell = table.cell(8, 0)
+    run = cell.paragraphs[0].add_run('Revision Date')
     run.bold = True
     cell = table.cell(9,1)
+    run = cell.paragraphs[0].add_run(str(revision_date))
+    cell = table.cell(10, 0)
+    run = cell.paragraphs[0].add_run('Owner')
+    run.bold = True
+    cell = table.cell(10,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
     update_style(table)
     add_table_of_contents(doc)

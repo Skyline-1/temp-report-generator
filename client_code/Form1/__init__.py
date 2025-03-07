@@ -142,14 +142,6 @@ class Form1(Form1Template):
           all_valid = False
         equipment_type= "Refrigerator Trailer"
         # Call server function to save user choice
-        description = self.text_box_15.text
-        if not description:
-          error_messages.append("Description is required")
-          all_valid = False
-        reason_for_revision = self.text_box_16.text
-        if not reason_for_revision:
-          error_messages.append("Reason for revision is required")
-          all_valid = False
         date_of_revision = self.date_picker_4.date
         if not date_of_revision:
           error_messages.append("Revision date is required")
@@ -159,7 +151,7 @@ class Form1(Form1Template):
              print("End Date=", end_date)
              print("Start Time=", start_time)
              print("End Time=", end_time)
-             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, description, reason_for_revision, date_of_revision)
+             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, date_of_revision)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
