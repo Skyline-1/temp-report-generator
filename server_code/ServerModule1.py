@@ -344,7 +344,7 @@ def mean_kinetic_temperature(temperatures, delta_h=83144, r=8.314):
     return round(mkt_celsius, 2)
 
 def read_and_filter_data(doc, folder_path, start_datetime, end_datetime):
-    counter=4.1
+    counter=3.1
     value=0.1
     for filename in folder_path:
         if counter + value >= 5.0:
@@ -481,13 +481,30 @@ def add_table_of_contents(doc):
   table.cell(16, 0).text = "APPENDIX G:DEVIATION/DEFICIENCY REPORTS"
   table.cell(16, 1).text = "22"
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
     #run=image.add_run()
     #run.add_picture("skyline logo.png",width=logo_width)
-    title = doc.add_heading('Operational Qualification (OQ): Refrigerated Trailer ')
+    if start_input == 1:
+        title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
+    elif start_input == 2:
+        title = doc.add_heading('6-Hour Mapping-Loaded Trailer', level=1)
+    elif start_input == 3:
+        title = doc.add_heading('1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
+    elif start_input == 4:
+        title = doc.add_heading('1-Minute Open Door-Loaded Trailer', level=1)
+    else:
+        title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
+    update_heading_style(title)
+    #title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    #second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
+    #second_title.italic = True
+    #second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    #update_heading_style(second_title)
+
+    title = doc.add_heading('Operational Qualification (OQ): Refrigerated Trailer', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     table = doc.add_table(rows=10, cols=2)
@@ -547,7 +564,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     update_style(table)
     add_table_of_contents(doc)
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    title = doc.add_heading('SECTION 1 : EXECUTIVE SUMMARY', level=1)
+    title = doc.add_heading('SECTION 1: EXECUTIVE SUMMARY', level=1)
     update_heading_style(title)
     table = doc.add_table(rows=6, cols=3)
     table.style = 'Table Grid' 
@@ -587,7 +604,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 2 : APPROVAL SIGNATURES', level=1)
+    title = doc.add_heading('SECTION 2: APPROVAL SIGNATURES', level=1)
     update_heading_style(title)
     table = doc.add_table(rows=7, cols=3)
     table.style = 'Table Grid' 
@@ -631,32 +648,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 3 : REVISION HISTORY', level=1)
-    table = doc.add_table(rows=2, cols=4)
-    table.style = 'Table Grid' 
-    table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('REVISION NO')
-    run.bold = True
-    cell = table.cell(0, 1)
-    run = cell.paragraphs[0].add_run('DESCRIPTION')
-    run.bold = True
-    cell = table.cell(0, 2)
-    run = cell.paragraphs[0].add_run('REASON FOR REVISION')
-    run.bold = True
-    cell = table.cell(0, 3)
-    run = cell.paragraphs[0].add_run('DATE OF REVISION')
-    run.bold = True
-    cell = table.cell(1, 0)
-    run = cell.paragraphs[0].add_run(revision_number)
-    cell = table.cell(1, 1)
-    run = cell.paragraphs[0].add_run(description)
-    cell = table.cell(1, 2)
-    run = cell.paragraphs[0].add_run(reason_for_revision)
-    cell = table.cell(1, 3)
-    run = cell.paragraphs[0].add_run(str(revision_date))
-    doc.add_paragraph()
-    title = doc.add_heading('SECTION 4 : SIGNATURE CONTROL FORM', level=1)
+    title = doc.add_heading('SECTION 4: SIGNATURE CONTROL FORM', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -684,8 +677,9 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT', level=1)
-    table = doc.add_table(rows=3, cols=1)
+    title = doc.add_heading('SECTION 5: PROGRAM FORMAT', level=1)
+    update_heading_style(title)
+    table = doc.add_table(rows=4, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
@@ -710,7 +704,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     cell.paragraphs[0].add_run('The temperature control and distribution within the Trailer will be demonstrated by conducting a four-hour mapping under empty Trailer conditions. The mapping will be conducted for the operating ranges of (2°C to 8°C) and (15°C to 25°C) at which the Trailer will be used. The reading interval is set at 1 minutes for the mapping study. To demonstrate that the Trailer temperature can remain within the established specifications for prolonged time periods, the temperatures recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) or (15°C to 25°C).')
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT(Continued)', level=1)
+    title = doc.add_heading('SECTION 5: PROGRAM FORMAT(Continued)', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=3, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -754,7 +749,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT(Continued)', level=1)
+    title = doc.add_heading('SECTION 5: PROGRAM FORMAT(Continued)', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=2, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -769,7 +765,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 6 : CALIBRATION', level=1)
+    title = doc.add_heading('SECTION 6: CALIBRATION', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=24, cols=2)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -812,7 +809,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     doc.add_paragraph()
-    title = doc.add_heading('SECTION 7 : STANDARD OPERATING PROCEDURES (SOP) LIST', level=1)
+    title = doc.add_heading('SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=4, cols=4)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -830,19 +828,20 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(1, 3)
     run = cell.paragraphs[0].add_run('Status')
     run.bold = True
-    cell = table.cell(3, 0).merge(table.cell(3,3))
+    cell = table.cell(2, 0).merge(table.cell(2,3))
     run = cell.paragraphs[0].add_run('Preventative Maintenance Policy')
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0)
     cell.paragraphs[0].add_run('STATUS LEGEND: \n')
     cell.paragraphs[0].add_run("IP =	In-process        TBW = To Be Written\n")
     cell.paragraphs[0].add_run("R =	Required            TBR = To Be Revised\n") 
     cell.paragraphs[0].add_run("C =	Completed\n")
     doc.add_paragraph()
     title = doc.add_heading('SECTION 8: CRITICAL OPERATING PARAMETERS', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=4, cols=3)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0).merge(table(0,2))
+    cell = table.cell(0, 0).merge(table.cell(0,2))
     cell.paragraphs[0].add_run('The following parameters may have an impact on the proper operation of the Trailer. ')
     cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Parameter')
@@ -867,6 +866,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('(2°C to 8°C) & (15°C to 25°C)')
     doc.add_paragraph()
     title = doc.add_heading('SECTION 9: TEST FUNCTIONS', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=1, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -876,29 +876,30 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('\nTest Function No. 3: Empty Trailer Temperature Distribution')
     doc.add_paragraph()
     title = doc.add_heading('SECTION 9: TEST FUNCTIONS (Continued)', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=19, cols=2)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
-    run.bold=True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table.cell(0,1))
+    run = cell.paragraphs[0].add_run('9.1 Test Function No. 1: Control Panel Verification')
+    run.bold = True
+    cell = table.cell(1, 0).merge(table.cell(1,1))
     run = cell.paragraphs[0].add_run('Objective: ')
     run.bold = True
     cell.paragraphs[0].add_run('To demonstrate that the control panel features operate as per design specifications.')
-    cell = table.cell(2, 0)
+    cell = table.cell(2, 0).merge(table.cell(2,1))
     run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
     run.bold = True
     cell.paragraphs[0].add_run('All features of the control panel must operate as described in the Methodology Section.')
-    cell = table.cell(3, 0)
+    cell = table.cell(3, 0).merge(table.cell(3,1))
     run = cell.paragraphs[0].add_run('Testing Equipment / Instruments: ')
     run.bold = True
     cell.paragraphs[0].add_run('None Required')
-    cell = table.cell(4, 0)
+    cell = table.cell(4, 0).merge(table.cell(4,1))
     run = cell.paragraphs[0].add_run('Methodology: ')
     run.bold = True
     cell.paragraphs[0].add_run('None Required')
-    cell = table.cell(5, 0)
+    cell = table.cell(5, 0).merge(table.cell(5,1))
     run = cell.paragraphs[0].add_run('Control Panel ')
     run.bold = True
     cell = table.cell(6, 0)
@@ -908,7 +909,8 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Conform Y/N ')
     run.bold = True
     cell = table.cell(7, 0)
-    cell.paragraphs[0].add_run('Main temperature display -  ')
+    run = cell.paragraphs[0].add_run('Main temperature display -  ')
+    run.bold = True
     cell.paragraphs[0].add_run('during normal operation, shows cabinet temperature in degrees Celsius, when the compressor is running, type of fuel, heating/cooling, and mode')
     cell = table.cell(7, 1)
     cell.paragraphs[0].add_run(' ')
@@ -930,52 +932,54 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run(' ')
     cell = table.cell(12, 0)
     cell.paragraphs[0].add_run('- Defrost – Initiates a defrost cycle')
+    cell = table.cell(12, 1)
+    cell.paragraphs[0].add_run(' ')
     cell = table.cell(13, 0)
-    cell.paragraphs[0].add_run('Start Stop  Continuous – switches between controlled operation and continuous cooling')
+    run = cell.paragraphs[0].add_run('Start Stop  Continuous')
+    run.bold = True
+    cell.paragraphs[0].add_run('– switches between controlled operation and continuous cooling')
     cell = table.cell(13, 1)
     cell.paragraphs[0].add_run(' ')
     cell = table.cell(14, 0)
-    cell.paragraphs[0].add_run('Start Stop  Continuous – switches between controlled operation and continuous cooling')
+    cell.paragraphs[0].add_run('– This flashes when there is an alarm state ')
     cell = table.cell(14, 1)
     cell.paragraphs[0].add_run(' ')
     cell = table.cell(15, 0)
-    cell.paragraphs[0].add_run('– This flashes when there is an alarm state ')
-    cell = table.cell(15, 1)
-    cell.paragraphs[0].add_run(' ')
-    cell = table.cell(16, 0)
     run = cell.paragraphs[0].add_run('Alarm – ')
     run.bold=True
     cell.paragraphs[0].add_run('This key will display any active alarms and a list of previous alarms since the last clear ')
+    cell = table.cell(15, 1)
+    cell.paragraphs[0].add_run(' ')
+    cell = table.cell(16, 0)
+    run = cell.paragraphs[0].add_run('Switching between modes matches the operator’s manual')
     cell = table.cell(16, 1)
     cell.paragraphs[0].add_run(' ')
-    cell = table.cell(17, 0)
-    run = cell.paragraphs[0].add_run('Switching between modes matches the operator’s manual')
-    cell = table.cell(17, 1)
-    cell.paragraphs[0].add_run(' ')
-    cell = table.cell(18, 0)
+    cell = table.cell(17, 0).merge(table.cell(17, 1))
     run = cell.paragraphs[0].add_run('Deviation / Deficiency Report No.')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 9: TEST FUNCTIONS (Continued)', level=1)
+    update_heading_style(title)
     table = doc.add_table(rows=9, cols=2)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
-    run.bold=True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table.cell(0, 1))
     run = cell.paragraphs[0].add_run('9.2 Test Function No. 2: Major Components Operating Parameters Verification ')
-    cell = table.cell(2, 0)
+    run.bold = True
+    cell = table.cell(1, 0).merge(table.cell(1, 1))
     run = cell.paragraphs[0].add_run('Objective: ')
     run.bold = True
     cell.paragraphs[0].add_run('To demonstrate that major components and / or their associated inputs / outputs to and from the controller operates as per design specifications. ')
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0).merge(table.cell(2, 1))
     run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
     run.bold = True
     cell.paragraphs[0].add_run('All features of the major components must operate as described in the Methodology Section')
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0).merge(table.cell(3, 1))
     run = cell.paragraphs[0].add_run('Testing Equipment / Instruments: ')
     run.bold = True
     cell.paragraphs[0].add_run('Current Meter')
-    cell = table.cell(4, 0)
+    cell = table.cell(4, 0).merge(table.cell(4, 1))
     run = cell.paragraphs[0].add_run('Methodology: ')
     run.bold = True
     cell.paragraphs[0].add_run('As follows.')
@@ -993,27 +997,28 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('When the Trailer temperature is above the set point programmed in the temperature controller, the compressor solenoids are set for full cooling')
     cell = table.cell(7, 1)
     run = cell.paragraphs[0].add_run(' ')
-    cell = table.cell(8, 0)
+    cell = table.cell(8, 0).merge(table.cell(8, 1))
     cell.paragraphs[0].add_run('Deviation / Deficiency Report No.')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=9, cols=2)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 9: TEST FUNCTIONS (Continued)', level=1)
+    update_heading_style(title)
+    table = doc.add_table(rows=9, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS (Continued)')
-    run.bold=True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('9.3 Test Function No. 3: Trailer Temperature Distribution Verification ')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Objective: ')
     run.bold = True
     cell.paragraphs[0].add_run('To demonstrate that the temperature is uniform and stable in accordance with the design specifications of the Trailer.')
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('Acceptance Criteria: ')
     run.bold = True
     cell.paragraphs[0].add_run('For the six (6) hour empty Trailer mappings performed at (2°C to 8°C).and at (15°C to 25°C), the following criteria must be met: ')
     cell.paragraphs[0].add_run('\n\nThe temperature readings recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) and within (15°C to 25°C) respectively.')
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0)
     run = cell.paragraphs[0].add_run('Testing Equipment/Instruments: ')
     run.bold = True
     cell.paragraphs[0].add_run('Temperature Loggers (8)')
@@ -1028,47 +1033,38 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('\n6.Once the Trailer’s temperature has stabilized, note the test start time and let it run for at least six (6) hours. ')
     cell.paragraphs[0].add_run('\n7.At the end of the test period, generate the raw data printouts and attach it in Appendix C, Item 3, Test Functions No. 3: Empty Trailer Temperature Distribution Verification –Data Logger Printouts. ')
     cell.paragraphs[0].add_run('\n8.The data of the test will be exported to spreadsheets used to identify the highest and lowest temperatures, as well as to calculate the average temperature for each time interval (1-minute intervals). The spreadsheets will be attached in Appendix B, Item 1, Test Function No. 3: Trailer Temperature Distribution Verification – Test Result Tables and Graphs.')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=8, cols=1)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 10: ANALYSIS AND CONCLUSIONS', level=1)
+    update_heading_style(title)
+    table = doc.add_table(rows=7, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 10: ANALYSIS AND CONCLUSIONS')
-    run.bold=True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('10.1 Test Function No. 1: Control Panel Verification')
     run.bold=True
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('It has been demonstrated that the control panel features operate as per design specifications\n\nAll features of the control panel operate as described in the Methodology Section')
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('10.2 Test Function No. 2: Major Components Operating Parameters Verification ')
     run.bold = True
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0)
     cell.paragraphs[0].add_run('It has been demonstrated that the control panel features operate as per design specifications\n\nAll features of the control panel operate as described in the Methodology Section')
-    cell = table.cell(5, 0)
+    cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('10.3 Test Function No. 3: Trailer Temperature Distribution Verification')
     run.bold = True
-    cell = table.cell(6, 0)
+    cell = table.cell(5, 0)
     cell.paragraphs[0].add_run('It has been demonstrated that the temperature is uniform and stable in accordance with the design specifications of the Trailer.\n\nFor the six (6) hours Trailer mappings performed at (2°C to 8°C). and (15°C to 25°C) the following criteria were met:\n\nThe temperature readings recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) and (15°C to 25°C) respectively. ')
-    cell = table.cell(7, 0)
-    run = cell.paragraphs[0].add_run('Deviation / Deficiency Report No.	            NAP ')  
-    if start_input == 1:
-        title = doc.add_heading('6-Hour Mapping-Empty Trailer', level=1)
-    elif start_input == 2:
-        title = doc.add_heading('6-Hour Mapping-Loaded Trailer', level=1)
-    elif start_input == 3:
-        title = doc.add_heading('1-Hour Temperature-Control Power Failure-Loaded Trailer', level=1)
-    elif start_input == 4:
-        title = doc.add_heading('1-Minute Open Door-Loaded Trailer', level=1)
-    else:
-        title = doc.add_heading('2-Hour Field Shipment Test-Loaded Trailer', level=1)
-    update_heading_style(title)
-    #title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    second_title = doc.add_heading(company_name + ' ' +  str(set_point) + ' °C', level=2)
-    second_title.italic = True
-    second_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    update_heading_style(second_title)
-    title=doc.add_heading('Summary', level=1)
+    cell = table.cell(6, 0)
+    run = cell.paragraphs[0].add_run('Deviation/Deficiency Report No.	            NAP ') 
+    doc.add_paragraph()
+    title=doc.add_heading('APPENDIX A: TRUCK/TRAILER IMAGE', level=1)
+    logo_width = Inches(4.5)
+    image = doc.add_paragraph()
+    run=image.add_run()
+    run.add_picture("_/theme/trailer.png",width=logo_width)
+    title=doc.add_heading('APPENDIX B: TEST RESULTS TABLES AND GRAPHS', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     title.italic = True
@@ -1119,23 +1115,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     update_summary_table_style(table, 4)
     heading=doc.add_heading('Details', level=1)
     update_heading_style(heading)
-    heading=doc.add_heading('1: General', level=2)
-    update_heading_style(heading)
-    table = doc.add_table(rows=5, cols=2)
-    table.style = 'Table Grid'
-    table.autofit = True
-    table.allow_autofit = True
-    table.cell(0, 0).text = 'Author'
-    table.cell(0, 1).text = author_name
-    table.cell(1, 0).text = 'Creation Date'
-    table.cell(1, 1).text = str(date.today())
-    table.cell(2, 0).text = 'Application'
-    table.cell(2, 1).text = app_name
-    table.cell(3, 0).text = 'Unique Mapping ID'
-    table.cell(3, 1).text = generate_unique_id()
-    table.cell(4, 0).text = 'Report Time Base'
-    table.cell(4, 1).text = 'UTC-05:00'
-    heading = doc.add_heading('2: Thresholds', level=2)
+    heading = doc.add_heading('1: Thresholds', level=2)
     update_heading_style(heading)
     table = doc.add_table(rows=3, cols=2)
     table.style = 'Table Grid'
@@ -1149,9 +1129,9 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(1, 1).text = str(max_temp) + " °C"
     table.cell(2, 0).text = 'Lower Temperature Limit'
     table.cell(2, 1).text = str(min_temp) + " °C"
-    heading = doc.add_heading('3: Conclusion', level=2)
+    heading = doc.add_heading('2: Conclusion', level=2)
     update_heading_style(heading)
-    heading = doc.add_heading('3.1: Average/Minimum/Maximum Temperature', level=2)
+    heading = doc.add_heading('2.1: Average/Minimum/Maximum Temperature', level=2)
     update_heading_style(heading)
     avg_temp, overall_min, overall_max, min_max_avg_df = process_file(doc, files, start_datetime, end_datetime)
     min_max_avg_plot_path=get_min_max_average_graph(min_max_avg_df)
@@ -1160,7 +1140,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     update_heading_style(heading)
     doc.add_picture(min_max_avg_plot_path, width=Inches(6.0)) 
     doc.add_heading('', level=2)
-    heading = doc.add_heading('3.2: Overall Temperature', level=2)
+    heading = doc.add_heading('2.2: Overall Temperature', level=2)
     update_heading_style(heading)
     table = doc.add_table(rows=2, cols=2)
     update_style(table)
@@ -1172,15 +1152,15 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(1, 0).text = 'Overall average of all single average temperature values'
     avg_temp = round(avg_temp, 2)
     table.cell(1, 1).text = str(avg_temp)
-    heading = doc.add_heading('3.3: Lowest/Highest Temperatures', level=2)
+    heading = doc.add_heading('2.3: Lowest/Highest Temperatures', level=2)
     update_heading_style(heading)
     low_high_calculator(files, doc, overall_min, 'Lowest', start_datetime, end_datetime)
     doc.add_heading('', level=2)
     low_high_calculator(files, doc, overall_max, 'Highest', start_datetime, end_datetime)
-    heading = doc.add_heading('4: Mapping Results', level=2)
+    heading = doc.add_heading('3: Mapping Results', level=2)
     update_heading_style(heading)
     combine_image_path, number_of_files = get_combined_graph(files, start_datetime, end_datetime)
-    heading=doc.add_heading('4.1: Overview', level=2)
+    heading=doc.add_heading('3.1: Overview', level=2)
     update_heading_style(heading)
     doc.add_picture(combine_image_path, width=Inches(6.0)) 
     doc.add_heading('', level=2)
@@ -1204,7 +1184,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     table.cell(5, 1).text = str(number_of_files)
     read_and_filter_data(doc, files,start_datetime, end_datetime)
     doc.add_heading(' ', level=2)
-    title=doc.add_heading('5. Analysis and Conclusion', level=2)
+    title=doc.add_heading('4. Analysis and Conclusion', level=2)
     update_heading_style(title)
     table = doc.add_table(rows=2, cols=1)
     table.style = 'Table Grid'
@@ -1262,7 +1242,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         'Temp Report.docx'
     ) 
 @anvil.server.callable
-def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date):
+def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
     start_date_str = start_date.strftime('%Y-%m-%d')
     start_str = start_date_str + " " + start_time
     start_datetime = pd.to_datetime(start_str)
@@ -1271,5 +1251,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_datetime = pd.to_datetime(end_str)
     print("start_datetime=", start_datetime)
     print("end_datetime=", end_datetime)
-    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date)
+    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date)
           

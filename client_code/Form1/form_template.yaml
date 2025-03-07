@@ -89,30 +89,6 @@ components:
     name: text_box_11
     properties: {placeholder: Enter model number}
     type: TextBox
-  - layout_properties: {grid_position: 'ICKLVQ,CMIGER'}
-    name: label_20
-    properties: {text: Enter revision number}
-    type: Label
-  - layout_properties: {grid_position: 'VTHCSY,TOPDCY'}
-    name: text_box_14
-    properties: {placeholder: Enter revision number}
-    type: TextBox
-  - layout_properties: {grid_position: 'ZOLNQM,XABTLT'}
-    name: label_21
-    properties: {text: Enter description (mention details regarding the revision)}
-    type: Label
-  - layout_properties: {grid_position: 'ULYPAG,JTWMJD'}
-    name: text_box_15
-    properties: {placeholder: Enter description}
-    type: TextBox
-  - layout_properties: {grid_position: 'IUQKWR,AUBOSZ'}
-    name: label_22
-    properties: {text: Enter reason for revision}
-    type: Label
-  - layout_properties: {grid_position: 'IIVDWK,AFQKLS'}
-    name: text_box_16
-    properties: {placeholder: Enter reason for revision}
-    type: TextBox
   - layout_properties: {grid_position: 'VVMAWP,PAOMHK'}
     name: label_23
     properties: {text: Enter revision date}

@@ -141,10 +141,6 @@ class Form1(Form1Template):
           error_messages.append("Creation date is required")
           all_valid = False
         equipment_type= "Refrigerator Trailer"
-        revision_number = self.text_box_14.text
-        if not revision_number:
-          error_messages.append("Revision number is required")
-          all_valid = False
         # Call server function to save user choice
         description = self.text_box_15.text
         if not description:
@@ -163,7 +159,7 @@ class Form1(Form1Template):
              print("End Date=", end_date)
              print("Start Time=", start_time)
              print("End Time=", end_time)
-             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, date_of_revision)
+             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, description, reason_for_revision, date_of_revision)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
