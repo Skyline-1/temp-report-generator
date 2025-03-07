@@ -412,7 +412,7 @@ def add_equipment_table(doc, equipment_type, document_number, creation_date):
 def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
-  table = doc.add_table(rows=20, cols=2)
+  table = doc.add_table(rows=17, cols=2)
 
 # Remove table borders
   for row in table.rows:
