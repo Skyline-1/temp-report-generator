@@ -656,42 +656,39 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(1, 3)
     run = cell.paragraphs[0].add_run(str(revision_date))
     doc.add_paragraph()
+    title = doc.add_heading('SECTION 4 : SIGNATURE CONTROL FORM', level=1)
     table = doc.add_table(rows=8, cols=5)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 4 : SIGNATURE CONTROL FORM')
-    run.bold = True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table.cell(0, 4))
     run = cell.paragraphs[0].add_run('All personnel who are involved in the execution and review of this protocols study results must enter samples of their signature and initials in the table below.')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('NAME')
     run.bold = True
-    cell = table.cell(2, 1)
+    cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run('TITLE')
     run.bold = True
-    cell = table.cell(2, 2)
+    cell = table.cell(1, 2)
     run = cell.paragraphs[0].add_run('SIGNATURE')
     run.bold = True
-    cell = table.cell(2, 3)
+    cell = table.cell(1, 3)
     run = cell.paragraphs[0].add_run('INITIALS')
     run.bold = True
-    cell = table.cell(2, 4)
+    cell = table.cell(1, 4)
     run = cell.paragraphs[0].add_run('DATE')
     run.bold = True
-    for row in range(3, 8):
+    for row in range(2, 8):
       for column in range(0, 5):
         cell = table.cell(row, column)
         run = cell.paragraphs[0].add_run('')
-    
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=4, cols=1)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT', level=1)
+    table = doc.add_table(rows=3, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT')
-    run.bold = True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.1: Objective')
     run.bold = True
     cell.paragraphs[0].add_run('\nThe objective of this protocol is to define and document the evidence needed to verify that the HYTR THE Trailer is operating according to HYTR and Skyline Cargo specifications, permitting operation as per design specifications as well as to cGMP.')
@@ -712,17 +709,16 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('\nTest Function No. 3:')
     run.bold = True
     cell.paragraphs[0].add_run('The temperature control and distribution within the Trailer will be demonstrated by conducting a four-hour mapping under empty Trailer conditions. The mapping will be conducted for the operating ranges of (2°C to 8°C) and (15°C to 25°C) at which the Trailer will be used. The reading interval is set at 1 minutes for the mapping study. To demonstrate that the Trailer temperature can remain within the established specifications for prolonged time periods, the temperatures recorded by each of the sensors located in the Trailer must remain within (2°C to 8°C) or (15°C to 25°C).')
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT(Continued)', level=1)
     table = doc.add_table(rows=3, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT (Continued)')
-    run.bold = True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.4 : Responsibility ')
     run.bold = True
     cell.paragraphs[0].add_run('The following responsibilities were assigned for the operation qualification of the chamber:\n') 
-    run = cell.paragraphs[0].add_run('Responsibility                             QA                     Management\n') 
+    run = cell.paragraphs[0].add_run('Responsibility                                QA                                  Management\n') 
     run.bold = True
     cell.paragraphs[0].add_run('\n\nWrite the protocol')
     cell.paragraphs[0].add_run('\nReview and approve the protocol')
@@ -735,34 +731,34 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('\nIssue the final validation report')
     cell.paragraphs[0].add_run('\nReview and approve the final report')
     cell.paragraphs[0].add_run('\Review and approve the deviation/deficiency report(s)')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.5: Abbreviation Glossary ')
     run.bold = True
     cell.paragraphs[0].add_run('\nAbbreviation            Description')
-    cell.paragraphs[0].add_run('\nA                       Amperes')
+    cell.paragraphs[0].add_run('\nA                        Amperes')
     cell.paragraphs[0].add_run('\ncGMP                    Current Good Manufacturing Practice')
-    cell.paragraphs[0].add_run('\nHz                      H')
-    cell.paragraphs[0].add_run('\nHz                      H')
+    cell.paragraphs[0].add_run('\nHz                       H')
+    cell.paragraphs[0].add_run('\nHz                       H')
     cell.paragraphs[0].add_run('\nNAP                     Not Applicable')
     cell.paragraphs[0].add_run('\nNAV                     Not Available')
     cell.paragraphs[0].add_run('\nNIST                    National Institute of Standards and Technology (USA)')
     cell.paragraphs[0].add_run('\nNRC                     National Research Council (Canada)')
-    cell.paragraphs[0].add_run('\nph                      Phase')
-    cell.paragraphs[0].add_run('\nRH                      Relative Humidity')
+    cell.paragraphs[0].add_run('\nph                        Phase')
+    cell.paragraphs[0].add_run('\nRH                       Relative Humidity')
     cell.paragraphs[0].add_run('\nRTD                     Resistance Temperature Device')
-    cell.paragraphs[0].add_run('\nSOP                     Standard Operating Procedure')
+    cell.paragraphs[0].add_run('\nSOP                      Standard Operating Procedure')
     cell.paragraphs[0].add_run('\nTBD                     To Be Determined')
-    cell.paragraphs[0].add_run('\nTC                      Thermocouple')
+    cell.paragraphs[0].add_run('\nTC                       Thermocouple')
     cell.paragraphs[0].add_run('\nVAC                     Volts Alternating Current')
     cell.paragraphs[0].add_run('\nVDC                     Volts Direct Current')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 5 : PROGRAM FORMAT(Continued)', level=1)
     table = doc.add_table(rows=2, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 5 : PROGRAM FORMAT (Continued)')
-    run.bold = True
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.6 : Deviations / Deficiencies  ')
     run.bold=True
     cell.paragraphs[0].add_run('\nIt is possible that during the execution of the validation protocol, that the pre-established test method may not be feasible. The changes made during execution are documented in a deviation report. The deviation report is used to document a deviation from an approved protocol. A deviation from an approved protocol is defined as, for example: a test methodology or acceptance criteria that was changed during execution but has no impact on the validity of the test. The deviation report describes the deviation, and the rationale is explained. ')
@@ -770,122 +766,116 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('\n\nThe impact on the system, the magnitude of the deficiency and the need for corrective action are evaluated by the most relevant person responsible concerning the actual deficiency. ')
     cell.paragraphs[0].add_run('\n\nA critical deficiency is defined as critical regarding the quality of the product or the function of a critical piece of equipment or system. A critical deficiency prevents a protocol/final report from being approved and must be resolved before its approval.')
     cell.paragraphs[0].add_run('\n\nIn case of a non-critical deficiency, the final report is approved conditionally, and an action plan is put in place in order to make sure that the corrective measures will be completed and documented. A non-critical deficiency does not affect the quality of the product or the function of a critical piece of equipment or system')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=25, cols=2)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 6 : CALIBRATION', level=1)
+    table = doc.add_table(rows=24, cols=2)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 6 : CALIBRATION')
-    run.bold=True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table.cell(0, 1))
     run = cell.paragraphs[0].add_run('SECTION 6.1 : Critical Instrumentation')
     run.bold=True
     cell.paragraphs[0].add_run('\nThe following testing instrumentation were used during the execution and must have been calibrated using equipment that was traceable to national standards (NIST, NRC), within the last 12 months prior to execution. The thermocouples (temperature sensors) must have been calibrated prior to and verified after the execution of this qualification.')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
     run.bold = True
-    cell = table.cell(2, 1)
+    cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run("Calibration Date")
     run.bold = True
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0)
     cell.paragraphs[0].add_run('Temperature Controller')
+    cell = table.cell(2, 1)
+    cell.paragraphs[0].add_run('')
+    cell = table.cell(3, 0)
+    cell.paragraphs[0].add_run('Monitoring System Temperature Sensor ')
     cell = table.cell(3, 1)
     cell.paragraphs[0].add_run('')
     cell = table.cell(4, 0)
-    cell.paragraphs[0].add_run('Monitoring System Temperature Sensor ')
-    cell = table.cell(4, 1)
-    cell.paragraphs[0].add_run('')
-    cell = table.cell(5, 0)
     cell.paragraphs[0].add_run('Calibration certificates and reports relating to the calibration of the unit’s instrumentation will be annexed in Appendix D: Critical Instrument Calibration Reports')
-    cell = table.cell(6, 0)
+    cell = table.cell(5, 0).merge(table.cell(5,1))
     run = cell.paragraphs[0].add_run('SECTION 6.2 : Testing Instrumentation ')
     run.bold=True
     cell.paragraphs[0].add_run('The following testing instrumentation were used during the execution and must have been calibrated using equipment that was traceable to national standards (NIST, NRC), within the last 12 months prior to execution. The thermocouples (temperature sensors) must have been calibrated prior to and verified after the execution of this qualification.')
-    cell = table.cell(7, 0)
+    cell = table.cell(6, 0)
     run = cell.paragraphs[0].add_run('Instrument/Sensor Description')
     run.bold = True
-    cell = table.cell(7, 1)
+    cell = table.cell(6, 1)
     run = cell.paragraphs[0].add_run("Calibration Date")
     run.bold = True
-    for i in range(8, 24):
+    for i in range(7, 23):
       for j in range(0, 2):
         cell = table.cell(i, j)
         cell.paragraphs[0].add_run('')
-    cell = table.cell(24, 0)
+    cell = table.cell(23, 0).merge(table.cell(23, 1))
     run = cell.paragraphs[0].add_run('Calibration certificates that relate to the calibration of the testing instrumentation will be annexed in Appendix E: Testing Instrument Calibration Reports. ')
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
-    table = doc.add_table(rows=5, cols=4)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 7 : STANDARD OPERATING PROCEDURES (SOP) LIST', level=1)
+    table = doc.add_table(rows=4, cols=4)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST ')
-    run.bold=True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table.cell(0,3))
     cell.paragraphs[0].add_run('The following table lists all standard operating procedures that are directly applicable to the operation of the unit under study. All procedures must be completed prior to the approval of the operational qualification report. SOPs should include – Operation, Cleaning, Maintenance and Calibration of various critical instruments/devices. Respective personnel should be trained according to these SOP’s')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Document Number')
     run.bold = True
-    cell = table.cell(2, 1)
+    cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run('Revision Number')
     run.bold = True
-    cell = table.cell(2, 2)
+    cell = table.cell(1, 2)
     run = cell.paragraphs[0].add_run('Title')
     run.bold = True
-    cell = table.cell(2, 3)
+    cell = table.cell(1, 3)
     run = cell.paragraphs[0].add_run('Status')
     run.bold = True
-    cell = table.cell(3, 0)
-    run = cell.paragraphs[0].add_run('')
-    cell = table.cell(3, 1)
-    run = cell.paragraphs[0].add_run('')
-    cell = table.cell(3, 2)
+    cell = table.cell(3, 0).merge(table.cell(3,3))
     run = cell.paragraphs[0].add_run('Preventative Maintenance Policy')
-    cell = table.cell(3, 3)
-    run = cell.paragraphs[0].add_run('')
     cell = table.cell(4, 0)
     cell.paragraphs[0].add_run('STATUS LEGEND: \n')
     cell.paragraphs[0].add_run("IP =	In-process        TBW = To Be Written\n")
     cell.paragraphs[0].add_run("R =	Required            TBR = To Be Revised\n") 
     cell.paragraphs[0].add_run("C =	Completed\n")
-    table = doc.add_table(rows=5, cols=3)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 8: CRITICAL OPERATING PARAMETERS', level=1)
+    table = doc.add_table(rows=4, cols=3)
     table.style = 'Table Grid' 
     table.allow_autofit = True
-    cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 8: CRITICAL OPERATING PARAMETERS')
-    run.bold=True
-    cell = table.cell(1, 0)
+    cell = table.cell(0, 0).merge(table(0,2))
     cell.paragraphs[0].add_run('The following parameters may have an impact on the proper operation of the Trailer. ')
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Parameter')
     run.bold = True
-    cell = table.cell(2, 1)
+    cell = table.cell(1, 1)
     run = cell.paragraphs[0].add_run('Operating Range/Value')
     run.bold = True
-    cell = table.cell(2, 2)
+    cell = table.cell(1, 2)
     run = cell.paragraphs[0].add_run('Range/Value to be covered during this study')
     run.bold = True
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('Tailer Load Configuration')
-    cell = table.cell(3, 1)
+    cell = table.cell(2, 1)
     run = cell.paragraphs[0].add_run('Empty to Fully Loaded')
-    cell = table.cell(3, 2)
+    cell = table.cell(2, 2)
     run = cell.paragraphs[0].add_run('Empty')
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0)
     cell.paragraphs[0].add_run('Temperature Setpoint')
-    cell = table.cell(4, 1)
+    cell = table.cell(3, 1)
     cell.paragraphs[0].add_run('NAV')
-    cell = table.cell(4, 2)
+    cell = table.cell(3, 2)
     cell.paragraphs[0].add_run('(2°C to 8°C) & (15°C to 25°C)')
-    table = doc.add_table(rows=2, cols=1)
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 9: TEST FUNCTIONS', level=1)
+    table = doc.add_table(rows=1, cols=1)
     table.style = 'Table Grid' 
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS')
-    run.bold=True
-    cell = table.cell(1, 0)
     cell.paragraphs[0].add_run('Test Function No. 1: Control Panel Verification')
     cell.paragraphs[0].add_run('\nTest Function No. 2: Major Components Operating Parameters Verification')
     cell.paragraphs[0].add_run('\nTest Function No. 3: Empty Trailer Temperature Distribution')
+    doc.add_paragraph()
+    title = doc.add_heading('SECTION 9: TEST FUNCTIONS (Continued)', level=1)
     table = doc.add_table(rows=19, cols=2)
     table.style = 'Table Grid' 
     table.allow_autofit = True
