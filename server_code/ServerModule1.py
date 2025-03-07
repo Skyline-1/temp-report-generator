@@ -412,41 +412,75 @@ def add_equipment_table(doc, equipment_type, document_number, creation_date):
 def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
-  doc.add_paragraph('SECTION 1: EXECUTIVE SUMMARY	_________________________________________________________4 ')
-  doc.add_paragraph('SECTION 2: APPROVAL SIGNATURES	_______________________________________________________5 ')
-  doc.add_paragraph('SECTION 3: REVISION HISTORY	_________________________________________________________6 ')
-  doc.add_paragraph('SECTION 4: SIGNATURE CONTROL FORM	___________________________________________________6 ')
-  doc.add_paragraph('SECTION 5: PROGRAM FORMAT	___________________________________________________________7 ')
-  p = doc.add_paragraph()
-  p.add_run('5.1: Objective ___________________________________________________________7').italic=True
-  p.add_run('5.2: Scope ___________________________________________________________7').italic=True
-  p.add_run('5.3: Rationale ___________________________________________________________7').italic=True
-  p.add_run('5.4: Responsibility ___________________________________________________________8').italic=True
-  p.add_run('5.5: Abbreviation/Glossary ___________________________________________________________8').italic=True
-  p.add_run('5.6: Deviations / Deficiencies___________________________________________________________9').italic=True
-  doc.add_paragraph('SECTION 6: CALIBRATION	___________________________________________________________10 ')
-  p = doc.add_paragraph()
-  p.add_run('6.1: Critical Instrumentation___________________________________________________________10').italic=True
-  p.add_run('6.2: Testing Instrumentation___________________________________________________________10').italic=True
-  doc.add_paragraph('SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST	_____________________________________11 ')
-  doc.add_paragraph('SECTION 8: CRITICAL OPERATING PARAMETERS	_____________________________________11 ')
-  doc.add_paragraph('SECTION 9: TEST FUNCTIONS	_____________________________________11 ')
-  p = doc.add_paragraph()
-  p.add_run('9.1: Test Function No. 1: Control Panel Verification	_____________________________________12 ').italic=True
-  p.add_run('9.2: Test Function No. 2: Major Components Operating Parameters Verification	_____________13 ').italic=True
-  p.add_run('9.3: Test Function No. 3: Empty Trailer Temperature Distribution Verification	_____________14 ').italic=True
-  p.add_run('9.4: Test Function No. 4: Trailer Recovery Verification	___________________________________14 ').italic=True
-  doc.add_paragraph('SECTION 10: ANALYSIS AND CONCLUSIONS ________________________________________________15 ')
-  doc.add_paragraph()
-  doc.add_paragraph()
-  doc.add_paragraph()
-  doc.add_paragraph('APPENDIX A:DRAWINGS _________________________________________________________________16')
-  doc.add_paragraph('APPENDIX B:TEST RESULTS TABLES AND GRAPHS ___________________________________________17')
-  doc.add_paragraph('APPENDIX C:RAW DATA SHEETS __________________________________________________________18')
-  doc.add_paragraph('APPENDIX D:CRITICAL INSTRUMENT CALIBRATION REPORTS___________________________________19')
-  doc.add_paragraph('APPENDIX E:TESTING INSTRUMENT CALIBRATION REPORTS____________________________________20')
-  doc.add_paragraph('APPENDIX F:REFERENCE / RELATED DOCUMENTS_____________________________________________21')
-  doc.add_paragraph('APPENDIX G:DEVIATION / DEFICIENCY REPORTS____________________________________________22')  
+  table = doc.add_table(rows=20, cols=2)
+
+# Remove table borders
+  for row in table.rows:
+      for cell in row.cells:
+          cell._element.getparent().remove(cell._element.find('./w:tcPr/w:tcBorders', cell._element.nsmap))
+  table.cell(0, 0).text = "SECTION 1: EXECUTIVE SUMMARY"
+  table.cell(0, 1).text = "4"
+  table.cell(1, 0).text = "SECTION 2: APPROVAL SIGNATURES"
+  table.cell(1, 1).text = "5"
+  table.cell(2, 0).text = "SECTION 3: REVISION HISTORY"
+  table.cell(2, 1).text = "6"
+  table.cell(3, 0).text = "SECTION 4: SIGNATURE CONTROL FORM"
+  table.cell(3, 1).text = "6"
+  cell = table.cell(4, 0)
+  run = cell.paragraphs[0].add_run('SECTION 5: PROGRAM FORMAT')
+  run = cell.paragraphs[0].add_run('\n5.1: Objective')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.1: Objective')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.2: Scope')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.3: Rationale')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.4: Responsibility')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.5: Abbreviation/Glossary')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n5.6: Deviations/Deficiencies')
+  run.italic=True
+  table.cell(4, 1).text = "7"
+  cell = table.cell(5, 0)
+  run = cell.paragraphs[0].add_run('SECTION 6: CALIBRATION')
+  run = cell.paragraphs[0].add_run('\n6.1: Critical Instrumentation')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n6.2: Testing Instrumentation')
+  run.italic=True
+  table.cell(5, 1).text = "10"
+  table.cell(6, 0).text = "SECTION 7: STANDARD OPERATING PROCEDURES (SOP) LIST"
+  table.cell(6, 1).text = "11"
+  table.cell(7, 0).text = "SECTION 8: CRITICAL OPERATING PARAMETERS"
+  table.cell(7, 1).text = "11"
+  cell = table.cell(8, 0)
+  run = cell.paragraphs[0].add_run('SECTION 9: TEST FUNCTIONS')
+  run = cell.paragraphs[0].add_run('\n9.1: Test Function No. 1: Control Panel Verification')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n9.2: Test Function No. 2: Major Components Operating Parameters Verification')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n9.3: Test Function No. 3: Empty Trailer Temperature Distribution Verification')
+  run.italic=True
+  run = cell.paragraphs[0].add_run('\n9.4: Test Function No. 4: Trailer Recovery Verification')
+  run.italic=True
+  table.cell(8, 1).text = "11"
+  table.cell(9, 0).text = "SECTION 10: ANALYSIS AND CONCLUSIONS"
+  table.cell(9, 1).text = "15"
+  table.cell(10, 0).text = "APPENDIX A:DRAWINGS"
+  table.cell(10, 1).text = "16"
+  table.cell(11, 0).text = "APPENDIX B:TEST RESULTS TABLES AND GRAPHS"
+  table.cell(11, 1).text = "17"
+  table.cell(12, 0).text = "APPENDIX C:RAW DATA SHEETS"
+  table.cell(12, 1).text = "18"
+  table.cell(13, 0).text = "APPENDIX D:CRITICAL INSTRUMENT CALIBRATION REPORTS"
+  table.cell(13, 1).text = "19"
+  table.cell(14, 0).text = "APPENDIX E:TESTING INSTRUMENT CALIBRATION REPORTS"
+  table.cell(14, 1).text = "20"
+  table.cell(15, 0).text = "APPENDIX F:REFERENCE/RELATED DOCUMENTS"
+  table.cell(15, 1).text = "21"
+  table.cell(16, 0).text = "APPENDIX G:DEVIATION/DEFICIENCY REPORTS"
+  table.cell(16, 1).text = "22"
   
 def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_number, description, reason_for_revision, revision_date):
     doc = Document()
@@ -506,11 +540,12 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run(str(operating_conditions))
-    cell = table.cell(8, 0)
+    cell = table.cell(9, 0)
     run = cell.paragraphs[0].add_run('Owner')
     run.bold = True
-    cell = table.cell(8,1)
+    cell = table.cell(9,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
+    update_style(table)
     add_table_of_contents(doc)
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     title = doc.add_heading('SECTION 1 : EXECUTIVE SUMMARY', level=1)
