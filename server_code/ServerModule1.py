@@ -1,6 +1,8 @@
 from io import BytesIO
+import PIL.Image as PilImage
 from scipy.interpolate import make_interp_spline
 import anvil.server
+import requests
 import pandas as pd
 import os
 import statistics
@@ -556,7 +558,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run(str(operating_conditions))
-    cell = table.cell(8, 0)
+    cell = table.cell(9, 0)
     run = cell.paragraphs[0].add_run('Revision Date')
     run.bold = True
     cell = table.cell(9,1)
@@ -1065,10 +1067,31 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Deviation/Deficiency Report No.	            NAP ') 
     doc.add_paragraph()
     title=doc.add_heading('APPENDIX A: TRUCK/TRAILER IMAGE', level=1)
+    update_heading_style(title)
     logo_width = Inches(4.5)
     image = doc.add_paragraph()
     run=image.add_run()
-    run.add_picture("_/theme/trailer.png",width=logo_width)
+    image_url = "https://anvil.works/build/apps/PZEVDPC4ITSDLA7Q/code/assets/trailer.png"
+    response = requests.get(image_url)
+
+    if response.status_code == 200:
+        
+        try:
+            # Open the image using PIL
+            image = PilImage.open(BytesIO(response.content))
+    
+            # Convert and save it in a standard format
+            image_stream = BytesIO()
+            image.save(image_stream, format="PNG")  # Ensure PNG format
+            image_stream.seek(0)  # Reset the stream position
+    
+            # Add image to document
+            run.add_picture(image_stream, width=logo_width)  # Adjust width
+    
+            # Save document
+            print("Document saved successfully!")
+        except Exception as e:
+            print(f"Error processing image: {e}")
     title=doc.add_heading('APPENDIX B: TEST RESULTS TABLES AND GRAPHS', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
