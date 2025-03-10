@@ -1267,7 +1267,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     return BlobMedia(
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
         doc_stream.read(), 
-        'Temp Report.docx'
+        'Temperature Mapping Protocol.docx'
     ) 
 @anvil.server.callable
 def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):

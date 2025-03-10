@@ -155,22 +155,6 @@ components:
     name: text_box_2
     properties: {placeholder: Enter name of the application, text: ''}
     type: TextBox
-  - layout_properties: {grid_position: 'NAUMFA,IBHJZT'}
-    name: label_13
-    properties: {text: Enter Protocol number}
-    type: Label
-  - layout_properties: {grid_position: 'XCNVRY,LHTKNH'}
-    name: text_box_8
-    properties: {placeholder: Enter protocol number}
-    type: TextBox
-  - layout_properties: {grid_position: 'RZETOC,EXIGUV'}
-    name: label_14
-    properties: {text: Enter Document number}
-    type: Label
-  - layout_properties: {grid_position: 'WTFBHO,GQQPGG'}
-    name: text_box_9
-    properties: {placeholder: Enter document number}
-    type: TextBox
   - layout_properties: {grid_position: 'FMNJAF,BOQXLW'}
     name: label_17
     properties: {text: Enter VIN number}

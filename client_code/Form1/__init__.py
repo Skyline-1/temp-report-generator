@@ -112,11 +112,7 @@ class Form1(Form1Template):
         if not application_name:
           error_messages.append("Application name is required")
           all_valid = False
-        protocol_number = self.text_box_8.text
-        if not protocol_number:
-          error_messages.append("Protocol number is required")
-          all_valid = False
-        document_number = self.text_box_9.text
+        document_number = "CAL-F02"
         if not document_number:
           error_messages.append("Document number is required")
           all_valid = False  
