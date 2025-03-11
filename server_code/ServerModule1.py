@@ -483,7 +483,7 @@ def add_table_of_contents(doc):
   table.cell(16, 0).text = "APPENDIX G:DEVIATION/DEFICIENCY REPORTS"
   table.cell(16, 1).text = "22"
   
-def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
+def create_document(files, start_datetime, end_datetime, start_input, set_point, company_name, author_name, app_name, trailer_no, season, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
     doc = Document()
     #logo_width = Inches(4.5)
     #image=doc.add_paragraph()
@@ -509,64 +509,59 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     title = doc.add_heading('Operational Qualification (OQ): Refrigerated Trailer', level=1)
     update_heading_style(title)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    table = doc.add_table(rows=11, cols=2)
+    table = doc.add_table(rows=10, cols=2)
     table.style = 'Table Grid'
     table.autofit = True
     table.allow_autofit = True
     cell = table.cell(0, 0)
-    run = cell.paragraphs[0].add_run('Protocol Number')
-    run.bold = True
-    cell = table.cell(0,1)
-    run = cell.paragraphs[0].add_run(protocol_number)
-    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Document Number')
     run.bold = True
-    cell = table.cell(1,1)
+    cell = table.cell(0,1)
     run = cell.paragraphs[0].add_run(document_number)
-    cell = table.cell(2, 0)
+    cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('Date Prepared')
     run.bold = True
-    cell = table.cell(2,1)
+    cell = table.cell(1,1)
     run = cell.paragraphs[0].add_run(str(creation_date))
-    cell = table.cell(3, 0)
+    cell = table.cell(2, 0)
     run = cell.paragraphs[0].add_run('Equipment Type')
     run.bold = True
-    cell = table.cell(3,1)
+    cell = table.cell(2,1)
     run = cell.paragraphs[0].add_run("Refrigerated Trailer")
-    cell = table.cell(4, 0)
+    cell = table.cell(3, 0)
     run = cell.paragraphs[0].add_run('Make')
     run.bold = True
-    cell = table.cell(4,1)
+    cell = table.cell(3,1)
     run = cell.paragraphs[0].add_run(make)
-    cell = table.cell(5, 0)
+    cell = table.cell(4, 0)
     run = cell.paragraphs[0].add_run('Model Number')
     run.bold = True
-    cell = table.cell(5,1)
+    cell = table.cell(4,1)
     run = cell.paragraphs[0].add_run(model_number)
-    cell = table.cell(6, 0)
+    cell = table.cell(5, 0)
     run = cell.paragraphs[0].add_run('VIN Number')
     run.bold = True
-    cell = table.cell(6,1)
+    cell = table.cell(5,1)
     run = cell.paragraphs[0].add_run(vin_number)
-    cell = table.cell(7, 0)
+    cell = table.cell(6, 0)
     run = cell.paragraphs[0].add_run('Equipment Id No')
     run.bold = True
-    cell = table.cell(7,1)
+    cell = table.cell(6,1)
     run = cell.paragraphs[0].add_run(equipment_number)
-    cell = table.cell(8, 0)
+    cell = table.cell(7, 0)
     run = cell.paragraphs[0].add_run('Operating Conditions')
     run.bold = True
-    cell = table.cell(8,1)
+    cell = table.cell(7,1)
     run = cell.paragraphs[0].add_run(str(operating_conditions))
-    cell = table.cell(9, 0)
+    cell = table.cell(8, 0)
     run = cell.paragraphs[0].add_run('Revision Date')
     run.bold = True
-    cell = table.cell(9,1)
+    cell = table.cell(8,1)
     run = cell.paragraphs[0].add_run(str(revision_date))
-    cell = table.cell(10, 0)
+    cell = table.cell(9, 0)
     run = cell.paragraphs[0].add_run('Owner')
     run.bold = True
-    cell = table.cell(10,1)
+    cell = table.cell(9,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
     #update_style(table)
     add_table_of_contents(doc)
@@ -1287,7 +1282,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
         'Temperature Mapping Protocol.docx'
     ) 
 @anvil.server.callable
-def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
+def save_user_choice(start_digit, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date):
     start_date_str = start_date.strftime('%Y-%m-%d')
     start_str = start_date_str + " " + start_time
     start_datetime = pd.to_datetime(start_str)
@@ -1296,5 +1291,5 @@ def save_user_choice(start_digit, author_name, start_date, start_time, end_date,
     end_datetime = pd.to_datetime(end_str)
     print("start_datetime=", start_datetime)
     print("end_datetime=", end_datetime)
-    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date)
+    return create_document(files, start_datetime, end_datetime, start_digit, temp_value, company_name, author_name, application_name, trailer_no, season, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, revision_date)
           

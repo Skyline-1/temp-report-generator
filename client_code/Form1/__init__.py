@@ -14,24 +14,21 @@ class Form1(Form1Template):
         # Collect data from radio buttons
         error_messages = []
         all_valid = True
+        selected_value=0
         # Check if trailer is selected or not
-        print(self.radio_button_1.selected)
-        print(self.radio_button_1.selected)
-        print(self.radio_button_5.selected)
-        print(self.radio_button_6.selected)
-        print(self.radio_button_7.selected)
         if self.radio_button_1.selected:
           selected_value = 1
         elif self.radio_button_2.selected:
           selected_value = 2
-        elif self.radio_button_5.selected:
+        elif self.radio_button_3.selected:
           selected_value = 3
-        elif self.radio_button_6.selected:
+        elif self.radio_button_4.selected:
           selected_value = 4
-        elif self.radio_button_7.selected:
+        elif self.radio_button_5.selected:
           selected_value = 5
         print(selected_value)
-        if not (self.radio_button_1.selected or self.radio_button_2.selected or self.radio_button_5.selected or self.radio_button_6.selected or self.radio_button_7.selected):
+        #if not (self.radio_button_1.selected or self.radio_button_2.selected or self.radio_button_5.selected or self.radio_button_6.selected or self.radio_button_7.selected):
+        if not selected_value:
           error_messages.append("Select one option from trailer group")
           all_valid = False
          #Check if Author's name is added or not 
@@ -85,21 +82,23 @@ class Form1(Form1Template):
                  error_messages.append(f"{file.name} is not a CSV file.")
                  all_valid = False
         #check if temperature is added or not
-        if self.radio_button_3.selected:
+        temp_value=0
+        if self.radio_button_6.selected:
           temp_value = 5
-        elif self.radio_button_4.selected:
+        elif self.radio_button_7.selected:
           temp_value = 20
         elif self.radio_button_8.selected:
           temp_value = -20
         operating_conditions=temp_value
-        if not (self.radio_button_3.selected or self.radio_button_4.selected or self.radio_button_8.selected):
+        if not temp_value:
           error_messages.append("Temp value is required")
           all_valid = False
+        season=""
         if self.radio_button_9.selected:
           season = "summer"
         elif self.radio_button_10.selected:
           season = "winter"
-        if not (self.radio_button_9.selected or self.radio_button_10.selected ):
+        if not season:
           error_messages.append("Season is required")
           all_valid = False
         trailer_no = self.text_box_6.text
@@ -149,7 +148,7 @@ class Form1(Form1Template):
              print("End Date=", end_date)
              print("Start Time=", start_time)
              print("End Time=", end_time)
-             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, protocol_number, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, date_of_revision)
+             blob_media = anvil.server.call('save_user_choice', selected_value, author_name, start_date, start_time, end_date, end_time, temp_value, application_name, company_name, files, trailer_no, season, document_number, make,model_number,vin_number, equipment_number, operating_conditions, creation_date, equipment_type, date_of_revision)
              self.download_link.url = blob_media.url  # Set the URL
              self.download_link.text = "Download your file"  # Link text
              self.download_link.visible = True  # Show the link
