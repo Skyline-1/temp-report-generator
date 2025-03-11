@@ -15,7 +15,6 @@ class Form1(Form1Template):
         error_messages = []
         all_valid = True
         # Check if trailer is selected or not
-        selected_value=0
         print(self.radio_button_1.selected)
         print(self.radio_button_1.selected)
         print(self.radio_button_5.selected)
