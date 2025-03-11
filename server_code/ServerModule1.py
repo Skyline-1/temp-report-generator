@@ -415,7 +415,7 @@ def add_table_of_contents(doc):
   title = doc.add_heading('Table of Contents ')
   update_heading_style(title)
   table = doc.add_table(rows=17, cols=2)
-  update_style(table)
+  #update_style(table)
   table.style = 'Table Grid' 
   table.allow_autofit = True
 # Remove table borders
@@ -568,7 +568,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     title = doc.add_heading('SECTION 1: EXECUTIVE SUMMARY', level=1)
-    #update_heading_style(title)
+    update_heading_style(title)
     table = doc.add_table(rows=6, cols=3)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -716,19 +716,19 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('5.4 : Responsibility ')
     run.bold = True
     cell.paragraphs[0].add_run('The following responsibilities were assigned for the operation qualification of the chamber:\n') 
-    run = cell.paragraphs[0].add_run('Responsibility                                QA                                  Management\n') 
+    run = cell.paragraphs[0].add_run('Responsibility                                     QA                            Management\n') 
     run.bold = True
-    cell.paragraphs[0].add_run('\n\nWrite the protocol                                 \u221A')
-    cell.paragraphs[0].add_run('\nReview and approve the protocol                      \u221A                              \u221A')
-    cell.paragraphs[0].add_run('\nCalibrate the critical instruments                   \u221A')
-    cell.paragraphs[0].add_run('\nCalibrate and supply the testing instruments         \u221A')
-    cell.paragraphs[0].add_run('\nEnsure that instruments are in calibrated state      \u221A')
-    cell.paragraphs[0].add_run('\nProvide the functional specifications                                                    \u221A')
-    cell.paragraphs[0].add_run('\nConduct the testing as described in the protocol     \u221A')
-    cell.paragraphs[0].add_run('\nCompile and analyze the test data                    \u221A')
-    cell.paragraphs[0].add_run('\nIssue the final validation report                    \u221A')
-    cell.paragraphs[0].add_run('\nReview and approve the final report                  \u221A                              \u221A')
-    cell.paragraphs[0].add_run('\Review and approve the deviation/deficiency report(s) \u221A')
+    cell.paragraphs[0].add_run('\n\nWrite the protocol                                      \u221A')
+    cell.paragraphs[0].add_run('\nReview and approve the protocol                           \u221A                          \u221A')
+    cell.paragraphs[0].add_run('\nCalibrate the critical instruments                        \u221A')
+    cell.paragraphs[0].add_run('\nCalibrate and supply the testing instruments              \u221A')
+    cell.paragraphs[0].add_run('\nEnsure that instruments are in calibrated state           \u221A')
+    cell.paragraphs[0].add_run('\nProvide the functional specifications                                                        \u221A')
+    cell.paragraphs[0].add_run('\nConduct the testing as described in the protocol          \u221A')
+    cell.paragraphs[0].add_run('\nCompile and analyze the test data                         \u221A')
+    cell.paragraphs[0].add_run('\nIssue the final validation report                         \u221A')
+    cell.paragraphs[0].add_run('\nReview and approve the final report                       \u221A                              \u221A')
+    cell.paragraphs[0].add_run('\nReview and approve the deviation/deficiency report(s)      \u221A')
     cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.5: Abbreviation Glossary ')
     run.bold = True
