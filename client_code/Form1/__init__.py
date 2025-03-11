@@ -96,8 +96,11 @@ class Form1(Form1Template):
         if not (self.radio_button_3.selected or self.radio_button_4.selected or self.radio_button_8.selected):
           error_messages.append("Temp value is required")
           all_valid = False
-        season = self.text_box_7.text
-        if not season:
+        if self.radio_button_9.selected:
+          season = "summer"
+        elif self.radio_button_10.selected:
+          season = "winter"
+        if not (self.radio_button_9.selected or self.radio_button_10.selected ):
           error_messages.append("Season is required")
           all_valid = False
         trailer_no = self.text_box_6.text

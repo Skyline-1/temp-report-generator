@@ -406,7 +406,7 @@ def add_equipment_table(doc, equipment_type, document_number, creation_date):
   table.style = 'Table Grid'
   table.autofit = True
   table.allow_autofit = True
-  update_style(table)
+  #update_style(table)
   table.cell(0, 0).text=f'Equipment: {equipment_type}'
   table.cell(1, 0).text=f'Document: {document_number}'
   table.cell(1, 1).text=f'Date: {creation_date}'
@@ -568,11 +568,12 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run.bold = True
     cell = table.cell(10,1)
     run = cell.paragraphs[0].add_run('Skyline Cargo \n7027 Fir Tree Drive \nMississauga, ON \nL5S 1J7 ')
-    update_style(table)
+    #update_style(table)
     add_table_of_contents(doc)
+    doc.add_paragraph()
     add_equipment_table(doc, equipment_number, document_number, creation_date)
     title = doc.add_heading('SECTION 1: EXECUTIVE SUMMARY', level=1)
-    update_heading_style(title)
+    #update_heading_style(title)
     table = doc.add_table(rows=6, cols=3)
     table.style = 'Table Grid' 
     table.allow_autofit = True
@@ -722,17 +723,17 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell.paragraphs[0].add_run('The following responsibilities were assigned for the operation qualification of the chamber:\n') 
     run = cell.paragraphs[0].add_run('Responsibility                                QA                                  Management\n') 
     run.bold = True
-    cell.paragraphs[0].add_run('\n\nWrite the protocol')
-    cell.paragraphs[0].add_run('\nReview and approve the protocol')
-    cell.paragraphs[0].add_run('\nCalibrate the critical instruments')
-    cell.paragraphs[0].add_run('\nCalibrate and supply the testing instruments')
-    cell.paragraphs[0].add_run('\nEnsure that instruments are in calibrated state')
-    cell.paragraphs[0].add_run('\nProvide the functional specifications')
-    cell.paragraphs[0].add_run('\nConduct the testing as described in the protocol')
-    cell.paragraphs[0].add_run('\nCompile and analyze the test data')
-    cell.paragraphs[0].add_run('\nIssue the final validation report')
-    cell.paragraphs[0].add_run('\nReview and approve the final report')
-    cell.paragraphs[0].add_run('\Review and approve the deviation/deficiency report(s)')
+    cell.paragraphs[0].add_run('\n\nWrite the protocol                                 \u221A')
+    cell.paragraphs[0].add_run('\nReview and approve the protocol                      \u221A                              \u221A')
+    cell.paragraphs[0].add_run('\nCalibrate the critical instruments                   \u221A')
+    cell.paragraphs[0].add_run('\nCalibrate and supply the testing instruments         \u221A')
+    cell.paragraphs[0].add_run('\nEnsure that instruments are in calibrated state      \u221A')
+    cell.paragraphs[0].add_run('\nProvide the functional specifications                                                    \u221A')
+    cell.paragraphs[0].add_run('\nConduct the testing as described in the protocol     \u221A')
+    cell.paragraphs[0].add_run('\nCompile and analyze the test data                    \u221A')
+    cell.paragraphs[0].add_run('\nIssue the final validation report                    \u221A')
+    cell.paragraphs[0].add_run('\nReview and approve the final report                  \u221A                              \u221A')
+    cell.paragraphs[0].add_run('\Review and approve the deviation/deficiency report(s) \u221A')
     cell = table.cell(1, 0)
     run = cell.paragraphs[0].add_run('5.5: Abbreviation Glossary ')
     run.bold = True
@@ -885,8 +886,14 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     title = doc.add_heading('SECTION 9: TEST FUNCTIONS (Continued)', level=1)
     update_heading_style(title)
     table = doc.add_table(rows=19, cols=2)
+    total_width = Inches(6)
     table.style = 'Table Grid' 
     table.allow_autofit = True
+    col1_width = total_width * 0.8
+    col2_width = total_width * 0.2
+    for row in table.rows:
+        row.cells[0].width = col1_width
+        row.cells[1].width = col2_width
     cell = table.cell(0, 0).merge(table.cell(0,1))
     run = cell.paragraphs[0].add_run('9.1 Test Function No. 1: Control Panel Verification')
     run.bold = True
@@ -913,7 +920,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     run = cell.paragraphs[0].add_run('Test ')
     run.bold = True
     cell = table.cell(6, 1)
-    run = cell.paragraphs[0].add_run('Conform Y/N ')
+    run = cell.paragraphs[0].add_run('Conform (Y/N) ')
     run.bold = True
     cell = table.cell(7, 0)
     run = cell.paragraphs[0].add_run('Main temperature display -  ')
@@ -942,7 +949,7 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     cell = table.cell(12, 1)
     cell.paragraphs[0].add_run(' ')
     cell = table.cell(13, 0)
-    run = cell.paragraphs[0].add_run('Start Stop  Continuous')
+    run = cell.paragraphs[0].add_run('Start Stop Continuous')
     run.bold = True
     cell.paragraphs[0].add_run('– switches between controlled operation and continuous cooling')
     cell = table.cell(13, 1)
@@ -970,6 +977,16 @@ def create_document(files, start_datetime, end_datetime, start_input, set_point,
     update_heading_style(title)
     table = doc.add_table(rows=9, cols=2)
     table.style = 'Table Grid' 
+    total_width = Inches(6)  # Adjust based on your page size
+
+    # Set the first column to 80% and the second column to 20%
+    col1_width = total_width * 0.8
+    col2_width = total_width * 0.2
+    
+    # Apply the column widths
+    for row in table.rows:
+        row.cells[0].width = col1_width
+        row.cells[1].width = col2_width
     table.allow_autofit = True
     cell = table.cell(0, 0).merge(table.cell(0, 1))
     run = cell.paragraphs[0].add_run('9.2 Test Function No. 2: Major Components Operating Parameters Verification ')
